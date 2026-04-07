@@ -3,18 +3,15 @@ import { useState, useEffect } from "react";
 const SHOPIFY_LOGIN_URL = "https://secret-magic-store.de/account/login";
 const SHOPIFY_ACCOUNT_URL = "https://secret-magic-store.de/account";
 
-// Exakte Farben aus dem Secret Magic Store Logo & Website
-const SMS_GREEN      = "#4e7d5b";  // Exaktes Header-/Logo-Grün aus dem Original
-const SMS_GREEN_DARK = "#3d6649";  // Dunkleres Grün (Hover-States)
-const SMS_GREEN_LIGHT= "#5a8f68";  // Helleres Grün (Akzente, Gradients)
-const SMS_GOLD       = "#c9a84c";  // Gold aus dem Logo-Hintergrund
-const SMS_BG         = "#f4f3ef";  // Heller cremiger Seitenhintergrund
+const SMS_GREEN      = "#4e7d5b";
+const SMS_GREEN_DARK = "#3d6649";
+const SMS_GOLD       = "#c9a84c";
+const SMS_BG         = "#f4f3ef";
 const SMS_WHITE      = "#ffffff";
-const SMS_CARD       = "#ffffff";
 const SMS_BORDER     = "#ddd9d0";
 const SMS_TEXT       = "#1a1a1a";
 const SMS_MUTED      = "#6b6b6b";
-const SMS_TOPBAR     = "#222222";  // Sehr dunkle Top-Info-Bar
+const SMS_TOPBAR     = "#222222";
 
 const IMAGES = {
   dachboden:    "/images/dachboden.png",
@@ -31,91 +28,23 @@ const IMAGES = {
 };
 
 const areas = [
-  {
-    id: "dachboden",
-    label: "Dachboden",
-    description: "Exklusive Inhalte & Überraschungen",
-    url: "https://secret-magic-store.de/pages/inner-circle",
-    icon: "🏠",
-  },
-  {
-    id: "wohnzimmer",
-    label: "Wohnzimmer",
-    description: "Der Inner Circle Blog",
-    url: "https://secret-magic-store.de/blogs/inner-circle",
-    icon: "🛋️",
-  },
-  {
-    id: "badezimmer",
-    label: "Badezimmer",
-    description: "Facebook Community",
-    url: "https://www.facebook.com/groups/531332315756823/?ref=share&mibextid=K35XfP&rdid=HlvkjpokI0jv6Ux2&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2Fg%2FZ7Qidi2ThbGuYGK1%2F%3Fmibextid%3DK35XfP#",
-    icon: "🚿",
-  },
-  {
-    id: "kueche",
-    label: "Küche",
-    description: "Rezepte & mehr",
-    url: "https://secret-magic-store.de/pages/kuche-inner-circle",
-    icon: "🍳",
-  },
-  {
-    id: "bibliothek",
-    label: "Bibliothek",
-    description: "Secret Magic Talk",
-    url: "https://secret-magic-store.de/pages/secret-magic-talk-inner-circle",
-    icon: "📚",
-  },
-  {
-    id: "schlafzimmer",
-    label: "Schlafzimmer",
-    description: "Top Secret Talk",
-    url: "https://secret-magic-store.de/pages/top-secret-secret-magic-talk-inner-circle",
-    icon: "🛏️",
-  },
-  {
-    id: "spielzimmer",
-    label: "Spielzimmer",
-    description: "Spaß & exklusive Inhalte",
-    url: "https://secret-magic-store.de/blogs/appgehort",
-    icon: "🎮",
-  },
-  {
-    id: "gaestezimmer",
-    label: "Gästezimmer",
-    description: "Für unsere Gäste",
-    url: "https://secret-magic-store.de/blogs/gastezimmer",
-    icon: "🛎️",
-  },
-  {
-    id: "balkon",
-    label: "Balkon",
-    description: "Exklusive Produkte",
-    url: "https://secret-magic-store.de/collections/dachboden-inner-circle-1",
-    icon: "🌿",
-  },
-  {
-    id: "keller",
-    label: "Keller",
-    description: "Demnächst verfügbar",
-    url: null,
-    icon: "🔑",
-    comingSoon: true,
-  },
-  {
-    id: "gewinnspiel",
-    label: "Gewinnspiel Ostern 2026",
-    description: "Jetzt mitmachen!",
-    url: "https://secret-magic-store.de/pages/gewinnspiel-ostern-2026",
-    icon: "🐣",
-  },
+  { id: "dachboden",    label: "Dachboden",            description: "Exklusive Inhalte & Überraschungen", url: "https://secret-magic-store.de/pages/inner-circle",                                                         icon: "🏠" },
+  { id: "wohnzimmer",   label: "Wohnzimmer",           description: "Der Inner Circle Blog",            url: "https://secret-magic-store.de/blogs/inner-circle",                                                          icon: "🛋️" },
+  { id: "badezimmer",   label: "Badezimmer",           description: "Facebook Community",               url: "https://www.facebook.com/groups/531332315756823/",                                                           icon: "🚿" },
+  { id: "kueche",       label: "Küche",               description: "Rezepte & mehr",                   url: "https://secret-magic-store.de/pages/kuche-inner-circle",                                                    icon: "🍳" },
+  { id: "bibliothek",   label: "Bibliothek",           description: "Secret Magic Talk",                url: "https://secret-magic-store.de/pages/secret-magic-talk-inner-circle",                                        icon: "📚" },
+  { id: "schlafzimmer", label: "Schlafzimmer",         description: "Top Secret Talk",                  url: "https://secret-magic-store.de/pages/top-secret-secret-magic-talk-inner-circle",                            icon: "🛏️" },
+  { id: "spielzimmer",  label: "Spielzimmer",          description: "Spaß & exklusive Inhalte",         url: "https://secret-magic-store.de/blogs/appgehort",                                                             icon: "🎮" },
+  { id: "gaestezimmer", label: "Gästezimmer",         description: "Für unsere Gäste",                  url: "https://secret-magic-store.de/blogs/gastezimmer",                                                           icon: "🛎️" },
+  { id: "balkon",       label: "Balkon",               description: "Exklusive Produkte",               url: "https://secret-magic-store.de/collections/dachboden-inner-circle-1",                                       icon: "🌿" },
+  { id: "keller",       label: "Keller",               description: "Demnächst verfügbar",              url: null, icon: "🔑", comingSoon: true },
+  { id: "gewinnspiel",  label: "Gewinnspiel Ostern 2026", description: "Jetzt mitmachen!",             url: "https://secret-magic-store.de/pages/gewinnspiel-ostern-2026",                                              icon: "🐣" },
 ];
 
 const styles = {
   page: {
     minHeight: "100vh",
     background: SMS_BG,
-    color: "#fff",
     fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
   },
   redBtn: {
@@ -141,7 +70,6 @@ const styles = {
     fontSize: "14px",
     cursor: "pointer",
     width: "100%",
-    transition: "border-color 0.2s, color 0.2s",
   },
   card: {
     background: SMS_WHITE,
@@ -166,8 +94,6 @@ const styles = {
   },
 };
 
-// Logo als SVG – nachgebaut nach dem hochgeladenen Original-Logo
-// Original: weißer Serif-Text "SECRET MAGIC" groß, darunter Trennlinien + "STORE" kleiner
 const SMS_LOGO_SVG = `data:image/svg+xml;utf8,${encodeURIComponent(`
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 70" width="220" height="70">
   <text x="110" y="30" text-anchor="middle"
@@ -183,59 +109,27 @@ const SMS_LOGO_SVG = `data:image/svg+xml;utf8,${encodeURIComponent(`
 </svg>
 `)}`;
 
-// ─── Header ───────────────────────────────────────────────────────────────────
 function Header({ showLogout, onLogout }) {
   return (
-    <header style={{
-      background: SMS_GREEN,
-      borderBottom: `1px solid ${SMS_GREEN_DARK}`,
-      padding: "0 24px",
-    }}>
-      <div style={{
-        background: SMS_TOPBAR,
-        textAlign: "center",
-        padding: "7px",
-        fontSize: "12px",
-        fontWeight: "500",
-        letterSpacing: "0.5px",
-        color: "#ccc",
-        margin: "0 -24px",
-      }}>
+    <header style={{ background: SMS_GREEN, borderBottom: `1px solid ${SMS_GREEN_DARK}`, padding: "0 24px" }}>
+      <div style={{ background: SMS_TOPBAR, textAlign: "center", padding: "7px", fontSize: "12px", fontWeight: "500", letterSpacing: "0.5px", color: "#ccc", margin: "0 -24px" }}>
         Exklusiver Bereich · Nur für Inner-Circle-Mitglieder
       </div>
-      <div style={{
-        maxWidth: "1100px",
-        margin: "0 auto",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        padding: "18px 0",
-      }}>
+      <div style={{ maxWidth: "1100px", margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 0" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-          <img src={SMS_LOGO_SVG} alt="Secret Magic Store"
-            style={{ height: "48px", width: "auto", objectFit: "contain", display: "block" }} />
-          <div style={{ display: "none" }} />
+          <img src={SMS_LOGO_SVG} alt="Secret Magic Store" style={{ height: "48px", width: "auto", objectFit: "contain", display: "block" }} />
           <div style={{ ...styles.label, color: "rgba(255,255,255,0.85)" }}>Inner Circle</div>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
           <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "11px", letterSpacing: "0.5px" }}>v 1.2</span>
           {showLogout && (
             <a href={SHOPIFY_ACCOUNT_URL} target="_blank" rel="noopener noreferrer"
-              style={{ color: "rgba(255,255,255,0.75)", fontSize: "13px", textDecoration: "none", display: "flex", alignItems: "center", gap: "5px" }}>
+              style={{ color: "rgba(255,255,255,0.75)", fontSize: "13px", textDecoration: "none" }}>
               👤 Mein Konto
             </a>
           )}
           {showLogout && (
-            <button onClick={onLogout} style={{
-              background: "transparent",
-              color: "rgba(255,255,255,0.85)",
-              border: "1px solid rgba(255,255,255,0.4)",
-              borderRadius: "3px",
-              padding: "8px 18px",
-              fontSize: "13px",
-              cursor: "pointer",
-              letterSpacing: "0.3px",
-            }}>
+            <button onClick={onLogout} style={{ background: "transparent", color: "rgba(255,255,255,0.85)", border: "1px solid rgba(255,255,255,0.4)", borderRadius: "3px", padding: "8px 18px", fontSize: "13px", cursor: "pointer" }}>
               Ausloggen
             </button>
           )}
@@ -245,373 +139,9 @@ function Header({ showLogout, onLogout }) {
   );
 }
 
-// ─── Landing Page ──────────────────────────────────────────────────────────────
-function LandingPage({ onEnter }) {
-  return (
-    <div style={styles.page}>
-      <Header showLogout={false} />
-
-      {/* Hero */}
-      <div style={{
-        background: `linear-gradient(to bottom, ${SMS_GREEN}22, ${SMS_BG})`,
-        textAlign: "center",
-        padding: "80px 24px 60px",
-        borderBottom: `1px solid ${SMS_BORDER}`,
-        color: SMS_TEXT,
-      }}>
-        <div style={styles.label}>Willkommen zurück</div>
-        <hr style={styles.divider} />
-        <h1 style={{
-          fontSize: "clamp(28px, 5vw, 44px)",
-          fontWeight: "900",
-          color: SMS_TEXT,
-          letterSpacing: "2px",
-          margin: "0 0 16px",
-          textTransform: "uppercase",
-        }}>
-          Inner Circle
-        </h1>
-        <p style={{ color: SMS_MUTED, fontSize: "16px", maxWidth: "480px", margin: "0 auto 40px", lineHeight: 1.7, color: SMS_MUTED }}>
-          Dieser Bereich ist ausschließlich für Mitglieder des Inner Circle.
-          Melde dich mit deinem Secret Magic Store Konto an, um fortzufahren.
-        </p>
-
-        <div style={{ maxWidth: "340px", margin: "0 auto", display: "flex", flexDirection: "column", gap: "12px" }}>
-          <button style={styles.redBtn} onClick={onEnter}
-            onMouseOver={e => e.currentTarget.style.background = SMS_GREEN_DARK}
-            onMouseOut={e => e.currentTarget.style.background = SMS_GREEN}
-          >
-            JETZT EINLOGGEN
-          </button>
-          <p style={{ color: "#555", fontSize: "12px", margin: 0 }}>
-            Du wirst zum offiziellen Secret Magic Store weitergeleitet.
-          </p>
-        </div>
-      </div>
-
-      {/* Feature boxes */}
-      <div style={{
-        maxWidth: "1100px",
-        margin: "60px auto",
-        padding: "0 24px",
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-        gap: "24px",
-      }}>
-        {areas.map(area => (
-          <div key={area.id} style={{
-            background: SMS_WHITE,
-            border: `1px solid ${SMS_BORDER}`,
-            borderRadius: "8px",
-            overflow: "hidden",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
-            opacity: area.comingSoon ? 0.6 : 1,
-            position: "relative",
-          }}>
-            <div style={{ width: "100%", height: "160px", overflow: "hidden", background: `${SMS_GREEN}22`, position: "relative" }}>
-              {IMAGES[area.id] ? (
-                <img src={IMAGES[area.id]} alt={area.label}
-                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-              ) : (
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", fontSize: "48px" }}>{area.icon}</div>
-              )}
-              {area.comingSoon && (
-                <div style={{
-                  position: "absolute", top: 8, right: 8,
-                  background: SMS_TOPBAR, color: "#fff",
-                  fontSize: "10px", fontWeight: "700", letterSpacing: "1px",
-                  padding: "3px 8px", borderRadius: "3px",
-                }}>BALD</div>
-              )}
-              {area.external && (
-                <div style={{
-                  position: "absolute", top: 8, right: 8,
-                  background: SMS_GOLD, color: "#fff",
-                  fontSize: "10px", fontWeight: "700", letterSpacing: "1px",
-                  padding: "3px 8px", borderRadius: "3px",
-                }}>↗ EXTERN</div>
-              )}
-            </div>
-            <div style={{ padding: "16px 18px" }}>
-              <div style={{ fontWeight: "800", fontSize: "14px", letterSpacing: "1px", textTransform: "uppercase", marginBottom: "4px", color: SMS_TEXT }}>{area.label}</div>
-              <div style={{ color: SMS_MUTED, fontSize: "12px" }}>{area.description}</div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <Footer />
-    </div>
-  );
-}
-
-// ─── Login Redirect Page ───────────────────────────────────────────────────────
-function LoginRedirectPage({ onConfirm, onBack }) {
-  const [waiting, setWaiting] = useState(false);
-
-  const handleRedirect = () => {
-    setWaiting(true);
-    window.open(SHOPIFY_LOGIN_URL, "_blank");
-  };
-
-  return (
-    <div style={styles.page}>
-      <Header showLogout={false} />
-
-      <div style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        minHeight: "calc(100vh - 120px)",
-        padding: "40px 24px",
-      }}>
-        <div style={{ ...styles.card, width: "100%", maxWidth: "440px" }}>
-          <div style={{ textAlign: "center", marginBottom: "32px", color: SMS_TEXT }}>
-            <div style={styles.label}>Schritt 1 von 2</div>
-            <hr style={styles.divider} />
-            <h2 style={{ fontSize: "22px", fontWeight: "800", textTransform: "uppercase", letterSpacing: "1px", margin: "0 0 12px", color: SMS_TEXT }}>
-              Login erforderlich
-            </h2>
-            <p style={{ color: SMS_MUTED, fontSize: "14px", lineHeight: 1.6, margin: 0 }}>
-              Melde dich mit deinem Konto auf der offiziellen Secret Magic Store Website an.
-              Danach kannst du hier bestätigen und alle Bereiche freischalten.
-            </p>
-          </div>
-
-          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-            {!waiting ? (
-              <button
-                style={styles.redBtn}
-                onClick={handleRedirect}
-                onMouseOver={e => e.currentTarget.style.background = SMS_GREEN_DARK}
-                onMouseOut={e => e.currentTarget.style.background = SMS_GREEN}
-              >
-                ZUR LOGIN-SEITE
-              </button>
-            ) : (
-              <div style={{
-                background: "#161616",
-                border: `1px solid ${SMS_GREEN}44`,
-                borderRadius: "4px",
-                padding: "16px",
-                textAlign: "center",
-              }}>
-                <div style={{ display: "flex", justifyContent: "center", gap: "6px", marginBottom: "8px" }}>
-                  {[0, 150, 300].map(d => (
-                    <div key={d} style={{
-                      width: "7px", height: "7px",
-                      background: SMS_GREEN,
-                      borderRadius: "50%",
-                      animation: `bounce 1s ${d}ms infinite`,
-                    }} />
-                  ))}
-                </div>
-                <p style={{ color: SMS_GREEN, fontSize: "13px", fontWeight: "700", margin: "0 0 4px", letterSpacing: "0.5px" }}>
-                  LOGIN-SEITE GEÖFFNET
-                </p>
-                <p style={{ color: "#555", fontSize: "12px", margin: 0 }}>Kehre nach dem Login hierher zurück</p>
-              </div>
-            )}
-
-            {waiting && (
-              <button
-                style={styles.redBtn}
-                onClick={onConfirm}
-                onMouseOver={e => e.currentTarget.style.background = SMS_GREEN_DARK}
-                onMouseOut={e => e.currentTarget.style.background = SMS_GREEN}
-              >
-                ✓ ICH BIN EINGELOGGT – WEITER
-              </button>
-            )}
-
-            <button
-              style={styles.outlineBtn}
-              onClick={onBack}
-              onMouseOver={e => { e.currentTarget.style.borderColor = "#555"; e.currentTarget.style.color = "#fff"; }}
-              onMouseOut={e => { e.currentTarget.style.borderColor = SMS_BORDER; e.currentTarget.style.color = "#ccc"; }}
-            >
-              ← Zurück
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ─── Dashboard ────────────────────────────────────────────────────────────────
-function Dashboard({ onLogout }) {
-  return (
-    <div style={{ ...styles.page, display: "flex", flexDirection: "column" }}>
-      <Header showLogout onLogout={onLogout} />
-
-      <div style={{
-        maxWidth: "1100px",
-        margin: "0 auto",
-        width: "100%",
-        flex: 1,
-        padding: "0 24px",
-      }}>
-        <main style={{ flex: 1, padding: "32px 0", display: "flex", flexDirection: "column" }}>
-          {true ? (
-            <div style={{ textAlign: "center", paddingTop: "40px" }}>
-              <div style={styles.label}>Dein Bereich</div>
-              <hr style={styles.divider} />
-              <h2 style={{ fontSize: "26px", fontWeight: "900", textTransform: "uppercase", letterSpacing: "2px", marginBottom: "12px", color: SMS_TEXT }}>
-                Willkommen im Inner Circle
-              </h2>
-              <p style={{ color: SMS_MUTED, fontSize: "15px", marginBottom: "48px" }}>
-                Wähle einen Bereich – er öffnet sich auf der Website.
-              </p>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "20px", maxWidth: "960px", margin: "0 auto", textAlign: "left" }}>
-                {areas.map(area => (
-                  <a
-                    key={area.id}
-                    href={area.comingSoon ? undefined : area.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={e => area.comingSoon && e.preventDefault()}
-                    style={{
-                      background: SMS_WHITE,
-                      border: `1px solid ${SMS_BORDER}`,
-                      borderRadius: "8px",
-                      overflow: "hidden",
-                      cursor: area.comingSoon ? "default" : "pointer",
-                      transition: "border-color 0.15s, box-shadow 0.15s",
-                      opacity: area.comingSoon ? 0.55 : 1,
-                      textAlign: "left",
-                      padding: "0",
-                      boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
-                      textDecoration: "none",
-                      display: "block",
-                    }}
-                    onMouseOver={e => { if (!area.comingSoon) { e.currentTarget.style.borderColor = SMS_GREEN; e.currentTarget.style.boxShadow = `0 4px 16px ${SMS_GREEN}22`; }}}
-                    onMouseOut={e => { e.currentTarget.style.borderColor = SMS_BORDER; e.currentTarget.style.boxShadow = "0 2px 8px rgba(0,0,0,0.06)"; }}
-                  >
-                    <div style={{ width: "100%", height: "140px", overflow: "hidden", background: `${SMS_GREEN}15`, position: "relative" }}>
-                      {IMAGES[area.id] ? (
-                        <img src={IMAGES[area.id]} alt={area.label}
-                          style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-                      ) : (
-                        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", fontSize: "40px" }}>{area.icon}</div>
-                      )}
-                      {area.comingSoon && (
-                        <div style={{
-                          position: "absolute", top: 8, right: 8,
-                          background: SMS_TOPBAR, color: "#fff",
-                          fontSize: "10px", fontWeight: "700", letterSpacing: "1px",
-                          padding: "3px 8px", borderRadius: "3px",
-                        }}>BALD</div>
-                      )}
-                    </div>
-                    <div style={{ padding: "14px 16px" }}>
-                      <div style={{ fontWeight: "800", textTransform: "uppercase", fontSize: "13px", letterSpacing: "1px", marginBottom: "3px", color: area.comingSoon ? "#aaa" : SMS_TEXT }}>{area.label}</div>
-                      <div style={{ color: SMS_MUTED, fontSize: "12px" }}>{area.description}</div>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </div>
-          ) : (
-            <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: "16px" }}>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "12px" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                  <span style={{ fontSize: "24px" }}>{activeArea.icon}</span>
-                  <div>
-                    <div style={{ fontWeight: "900", textTransform: "uppercase", fontSize: "16px", letterSpacing: "1.5px", color: SMS_TEXT }}>{activeArea.label}</div>
-                    <div style={{ color: SMS_MUTED, fontSize: "12px" }}>{activeArea.description}</div>
-                  </div>
-                </div>
-                <div style={{ display: "flex", gap: "8px" }}>
-                  <a
-                    href={activeArea.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{
-                      background: "transparent",
-                      border: `1px solid ${SMS_BORDER}`,
-                      color: SMS_MUTED,
-                      borderRadius: "4px",
-                      padding: "8px 16px",
-                      fontSize: "13px",
-                      textDecoration: "none",
-                      fontWeight: "600",
-                      letterSpacing: "0.3px",
-                    }}
-                  >
-                    ↗ In neuem Tab öffnen
-                  </a>
-                  <button
-                    onClick={() => onAreaSelect(null)}
-                    style={{
-                      background: "transparent",
-                      border: `1px solid ${SMS_BORDER}`,
-                      color: SMS_MUTED,
-                      borderRadius: "3px",
-                      padding: "8px 14px",
-                      fontSize: "13px",
-                      cursor: "pointer",
-                    }}
-                  >
-                    ✕
-                  </button>
-                </div>
-              </div>
-              <div style={{
-                flex: 1,
-                background: SMS_CARD,
-                border: `1px solid ${SMS_BORDER}`,
-                borderRadius: "6px",
-                overflow: "hidden",
-                minHeight: "560px",
-              }}>
-                <iframe
-                  src={activeArea.url}
-                  title={activeArea.label}
-                  style={{ width: "100%", height: "100%", minHeight: "560px", border: "none", display: "block" }}
-                  allow="fullscreen"
-                />
-              </div>
-              <div style={{
-                background: "#f0f7f3",
-                border: `1px solid ${SMS_GREEN}33`,
-                borderRadius: "4px",
-                padding: "12px 16px",
-                display: "flex",
-                alignItems: "center",
-                gap: "12px",
-                fontSize: "12px",
-              }}>
-                <span style={{ color: SMS_GREEN, fontWeight: "700" }}>ℹ</span>
-                <span style={{ color: SMS_MUTED }}>Falls der Inhalt nicht angezeigt wird, bitte direkt auf der Website öffnen.</span>
-                <a
-                  href={activeArea.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ marginLeft: "auto", color: SMS_GREEN, fontWeight: "700", textDecoration: "none", whiteSpace: "nowrap" }}
-                >
-                  Direkt öffnen →
-                </a>
-              </div>
-            </div>
-          )}
-        </main>
-      </div>
-
-      <Footer />
-    </div>
-  );
-}
-
-// ─── Footer ───────────────────────────────────────────────────────────────────
 function Footer() {
   return (
-    <footer style={{
-      borderTop: `1px solid ${SMS_BORDER}`,
-      padding: "24px",
-      textAlign: "center",
-      marginTop: "auto",
-    }}>
+    <footer style={{ borderTop: `1px solid ${SMS_BORDER}`, padding: "24px", textAlign: "center", marginTop: "auto" }}>
       <p style={{ color: SMS_MUTED, fontSize: "12px", margin: 0 }}>
         © 2026 Secret Magic Store · Inner Circle · Nur für Mitglieder
       </p>
@@ -619,10 +149,146 @@ function Footer() {
   );
 }
 
-// ─── App ──────────────────────────────────────────────────────────────────────
+function AreaCard({ area }) {
+  return (
+    <a
+      href={area.comingSoon ? undefined : area.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={e => area.comingSoon && e.preventDefault()}
+      style={{
+        background: SMS_WHITE,
+        border: `1px solid ${SMS_BORDER}`,
+        borderRadius: "8px",
+        overflow: "hidden",
+        cursor: area.comingSoon ? "default" : "pointer",
+        opacity: area.comingSoon ? 0.55 : 1,
+        textDecoration: "none",
+        display: "block",
+        boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
+        transition: "border-color 0.15s, box-shadow 0.15s",
+      }}
+      onMouseOver={e => { if (!area.comingSoon) { e.currentTarget.style.borderColor = SMS_GREEN; e.currentTarget.style.boxShadow = `0 4px 16px ${SMS_GREEN}22`; }}}
+      onMouseOut={e => { e.currentTarget.style.borderColor = SMS_BORDER; e.currentTarget.style.boxShadow = "0 2px 8px rgba(0,0,0,0.06)"; }}
+    >
+      <div style={{ width: "100%", height: "140px", overflow: "hidden", background: `${SMS_GREEN}15`, position: "relative" }}>
+        {IMAGES[area.id] ? (
+          <img src={IMAGES[area.id]} alt={area.label} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+        ) : (
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", fontSize: "40px" }}>{area.icon}</div>
+        )}
+        {area.comingSoon ? (
+          <div style={{ position: "absolute", top: 8, right: 8, background: SMS_TOPBAR, color: "#fff", fontSize: "10px", fontWeight: "700", letterSpacing: "1px", padding: "3px 8px", borderRadius: "3px" }}>BALD</div>
+        ) : (
+          <div style={{ position: "absolute", top: 8, right: 8, background: "rgba(0,0,0,0.45)", color: "#fff", fontSize: "10px", fontWeight: "700", letterSpacing: "1px", padding: "3px 8px", borderRadius: "3px" }}>↗ ÖFFNEN</div>
+        )}
+      </div>
+      <div style={{ padding: "14px 16px" }}>
+        <div style={{ fontWeight: "800", textTransform: "uppercase", fontSize: "13px", letterSpacing: "1px", marginBottom: "3px", color: area.comingSoon ? "#aaa" : SMS_TEXT }}>{area.label}</div>
+        <div style={{ color: SMS_MUTED, fontSize: "12px" }}>{area.description}</div>
+      </div>
+    </a>
+  );
+}
+
+function LandingPage({ onEnter }) {
+  return (
+    <div style={styles.page}>
+      <Header showLogout={false} />
+      <div style={{ background: `linear-gradient(to bottom, ${SMS_GREEN}22, ${SMS_BG})`, textAlign: "center", padding: "80px 24px 60px", borderBottom: `1px solid ${SMS_BORDER}`, color: SMS_TEXT }}>
+        <div style={styles.label}>Willkommen zurück</div>
+        <hr style={styles.divider} />
+        <h1 style={{ fontSize: "clamp(28px, 5vw, 44px)", fontWeight: "900", color: SMS_TEXT, letterSpacing: "2px", margin: "0 0 16px", textTransform: "uppercase" }}>Inner Circle</h1>
+        <p style={{ color: SMS_MUTED, fontSize: "16px", maxWidth: "480px", margin: "0 auto 40px", lineHeight: 1.7 }}>
+          Dieser Bereich ist ausschließlich für Mitglieder des Inner Circle.
+          Melde dich mit deinem Secret Magic Store Konto an, um fortzufahren.
+        </p>
+        <div style={{ maxWidth: "340px", margin: "0 auto", display: "flex", flexDirection: "column", gap: "12px" }}>
+          <button style={styles.redBtn} onClick={onEnter}
+            onMouseOver={e => e.currentTarget.style.background = SMS_GREEN_DARK}
+            onMouseOut={e => e.currentTarget.style.background = SMS_GREEN}>
+            JETZT EINLOGGEN
+          </button>
+          <p style={{ color: "#555", fontSize: "12px", margin: 0 }}>Du wirst zum offiziellen Secret Magic Store weitergeleitet.</p>
+        </div>
+      </div>
+      <div style={{ maxWidth: "1100px", margin: "60px auto", padding: "0 24px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "24px" }}>
+        {areas.map(area => <AreaCard key={area.id} area={area} />)}
+      </div>
+      <Footer />
+    </div>
+  );
+}
+
+function LoginRedirectPage({ onConfirm, onBack }) {
+  const [waiting, setWaiting] = useState(false);
+  const handleRedirect = () => { setWaiting(true); window.open(SHOPIFY_LOGIN_URL, "_blank"); };
+  return (
+    <div style={styles.page}>
+      <Header showLogout={false} />
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: "calc(100vh - 120px)", padding: "40px 24px" }}>
+        <div style={{ ...styles.card, width: "100%", maxWidth: "440px" }}>
+          <div style={{ textAlign: "center", marginBottom: "32px", color: SMS_TEXT }}>
+            <div style={styles.label}>Schritt 1 von 2</div>
+            <hr style={styles.divider} />
+            <h2 style={{ fontSize: "22px", fontWeight: "800", textTransform: "uppercase", letterSpacing: "1px", margin: "0 0 12px", color: SMS_TEXT }}>Login erforderlich</h2>
+            <p style={{ color: SMS_MUTED, fontSize: "14px", lineHeight: 1.6, margin: 0 }}>
+              Melde dich mit deinem Konto auf der offiziellen Secret Magic Store Website an.
+              Danach kannst du hier bestätigen und alle Bereiche freischalten.
+            </p>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+            {!waiting ? (
+              <button style={styles.redBtn} onClick={handleRedirect}
+                onMouseOver={e => e.currentTarget.style.background = SMS_GREEN_DARK}
+                onMouseOut={e => e.currentTarget.style.background = SMS_GREEN}>
+                ZUR LOGIN-SEITE
+              </button>
+            ) : (
+              <div style={{ background: "#f0f7f3", border: `1px solid ${SMS_GREEN}44`, borderRadius: "4px", padding: "16px", textAlign: "center" }}>
+                <p style={{ color: SMS_GREEN, fontSize: "13px", fontWeight: "700", margin: "0 0 4px" }}>LOGIN-SEITE GEÖFFNET</p>
+                <p style={{ color: "#555", fontSize: "12px", margin: 0 }}>Kehre nach dem Login hierher zurück</p>
+              </div>
+            )}
+            {waiting && (
+              <button style={styles.redBtn} onClick={onConfirm}
+                onMouseOver={e => e.currentTarget.style.background = SMS_GREEN_DARK}
+                onMouseOut={e => e.currentTarget.style.background = SMS_GREEN}>
+                ✓ ICH BIN EINGELOGGT – WEITER
+              </button>
+            )}
+            <button style={styles.outlineBtn} onClick={onBack}>← Zurück</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Dashboard({ onLogout }) {
+  return (
+    <div style={{ ...styles.page, display: "flex", flexDirection: "column" }}>
+      <Header showLogout onLogout={onLogout} />
+      <div style={{ maxWidth: "1100px", margin: "0 auto", width: "100%", flex: 1, padding: "0 24px" }}>
+        <main style={{ padding: "32px 0" }}>
+          <div style={{ textAlign: "center", paddingTop: "20px" }}>
+            <div style={styles.label}>Dein Bereich</div>
+            <hr style={styles.divider} />
+            <h2 style={{ fontSize: "26px", fontWeight: "900", textTransform: "uppercase", letterSpacing: "2px", marginBottom: "12px", color: SMS_TEXT }}>Willkommen im Inner Circle</h2>
+            <p style={{ color: SMS_MUTED, fontSize: "15px", marginBottom: "40px" }}>Wähle einen Bereich – er öffnet sich auf der Website.</p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "20px", maxWidth: "960px", margin: "0 auto", textAlign: "left" }}>
+              {areas.map(area => <AreaCard key={area.id} area={area} />)}
+            </div>
+          </div>
+        </main>
+      </div>
+      <Footer />
+    </div>
+  );
+}
+
 export default function App() {
   const [screen, setScreen] = useState("landing");
-  const [activeArea, setActiveArea] = useState(null);
 
   useEffect(() => {
     const saved = localStorage.getItem("sms_inner_circle_auth");
@@ -636,7 +302,6 @@ export default function App() {
 
   const handleLogout = () => {
     localStorage.removeItem("sms_inner_circle_auth");
-    setActiveArea(null);
     setScreen("landing");
   };
 
