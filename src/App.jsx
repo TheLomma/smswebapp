@@ -218,7 +218,7 @@ function Header({ showLogout, onLogout }) {
           <div style={{ ...styles.label, color: "rgba(255,255,255,0.85)" }}>Inner Circle</div>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-          <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "11px", letterSpacing: "0.5px" }}>v 1.1</span>
+          <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "11px", letterSpacing: "0.5px" }}>v 1.2</span>
           {showLogout && (
             <a href={SHOPIFY_ACCOUNT_URL} target="_blank" rel="noopener noreferrer"
               style={{ color: "rgba(255,255,255,0.75)", fontSize: "13px", textDecoration: "none", display: "flex", alignItems: "center", gap: "5px" }}>
@@ -440,7 +440,7 @@ function LoginRedirectPage({ onConfirm, onBack }) {
 }
 
 // ─── Dashboard ────────────────────────────────────────────────────────────────
-function Dashboard({ onAreaSelect, activeArea, onLogout }) {
+function Dashboard({ onLogout }) {
   return (
     <div style={{ ...styles.page, display: "flex", flexDirection: "column" }}>
       <Header showLogout onLogout={onLogout} />
@@ -453,7 +453,7 @@ function Dashboard({ onAreaSelect, activeArea, onLogout }) {
         padding: "0 24px",
       }}>
         <main style={{ flex: 1, padding: "32px 0", display: "flex", flexDirection: "column" }}>
-          {!activeArea ? (
+          {true ? (
             <div style={{ textAlign: "center", paddingTop: "40px" }}>
               <div style={styles.label}>Dein Bereich</div>
               <hr style={styles.divider} />
@@ -461,13 +461,16 @@ function Dashboard({ onAreaSelect, activeArea, onLogout }) {
                 Willkommen im Inner Circle
               </h2>
               <p style={{ color: SMS_MUTED, fontSize: "15px", marginBottom: "48px" }}>
-                Wähle einen Bereich.
+                Wähle einen Bereich – er öffnet sich auf der Website.
               </p>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "20px", maxWidth: "960px", margin: "0 auto", textAlign: "left" }}>
                 {areas.map(area => (
-                  <button
+                  <a
                     key={area.id}
-                    onClick={() => !area.comingSoon && onAreaSelect(area)}
+                    href={area.comingSoon ? undefined : area.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={e => area.comingSoon && e.preventDefault()}
                     style={{
                       background: SMS_WHITE,
                       border: `1px solid ${SMS_BORDER}`,
@@ -479,6 +482,8 @@ function Dashboard({ onAreaSelect, activeArea, onLogout }) {
                       textAlign: "left",
                       padding: "0",
                       boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
+                      textDecoration: "none",
+                      display: "block",
                     }}
                     onMouseOver={e => { if (!area.comingSoon) { e.currentTarget.style.borderColor = SMS_GREEN; e.currentTarget.style.boxShadow = `0 4px 16px ${SMS_GREEN}22`; }}}
                     onMouseOut={e => { e.currentTarget.style.borderColor = SMS_BORDER; e.currentTarget.style.boxShadow = "0 2px 8px rgba(0,0,0,0.06)"; }}
@@ -637,5 +642,5 @@ export default function App() {
 
   if (screen === "landing") return <LandingPage onEnter={() => setScreen("login")} />;
   if (screen === "login") return <LoginRedirectPage onConfirm={handleConfirm} onBack={() => setScreen("landing")} />;
-  return <Dashboard onAreaSelect={setActiveArea} activeArea={activeArea} onLogout={handleLogout} />;
+  return <Dashboard onLogout={handleLogout} />;
 }
