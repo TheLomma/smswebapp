@@ -51,7 +51,6 @@ const areas = [
     description: "Facebook Community",
     url: "https://www.facebook.com/groups/531332315756823/?ref=share&mibextid=K35XfP&rdid=HlvkjpokI0jv6Ux2&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2Fg%2FZ7Qidi2ThbGuYGK1%2F%3Fmibextid%3DK35XfP#",
     icon: "🚿",
-    external: true,
   },
   {
     id: "kueche",
@@ -192,7 +191,6 @@ function Header({ showLogout, onLogout }) {
       borderBottom: `1px solid ${SMS_GREEN_DARK}`,
       padding: "0 24px",
     }}>
-      {/* Top bar */}
       <div style={{
         background: SMS_TOPBAR,
         textAlign: "center",
@@ -214,35 +212,36 @@ function Header({ showLogout, onLogout }) {
         justifyContent: "space-between",
         padding: "18px 0",
       }}>
-        {/* Logo */}
         <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
           <img
             src={SMS_LOGO_SVG}
             alt="Secret Magic Store"
             style={{ height: "48px", width: "auto", objectFit: "contain", display: "block" }}
           />
-          <div style={{ width: "1px", height: "36px", background: SMS_BORDER }} />
+          <div style={{ width: "1px", height: "36px", background: "rgba(255,255,255,0.3)" }} />
           <div style={{ ...styles.label, color: "rgba(255,255,255,0.85)" }}>Inner Circle</div>
         </div>
 
-        {/* Nav right */}
-        {showLogout && (
-          <button
-            onClick={onLogout}
-            style={{
-              background: "transparent",
-              color: "rgba(255,255,255,0.85)",
-              border: "1px solid rgba(255,255,255,0.4)",
-              borderRadius: "3px",
-              padding: "8px 18px",
-              fontSize: "13px",
-              cursor: "pointer",
-              letterSpacing: "0.3px",
-            }}
-          >
-            Ausloggen
-          </button>
-        )}
+        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+          <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "11px", letterSpacing: "0.5px" }}>v 1.1</span>
+          {showLogout && (
+            <button
+              onClick={onLogout}
+              style={{
+                background: "transparent",
+                color: "rgba(255,255,255,0.85)",
+                border: "1px solid rgba(255,255,255,0.4)",
+                borderRadius: "3px",
+                padding: "8px 18px",
+                fontSize: "13px",
+                cursor: "pointer",
+                letterSpacing: "0.3px",
+              }}
+            >
+              Ausloggen
+            </button>
+          )}
+        </div>
       </div>
     </header>
   );
