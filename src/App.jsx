@@ -203,7 +203,6 @@ function Header({ showLogout, onLogout }) {
       }}>
         Exklusiver Bereich · Nur für Inner-Circle-Mitglieder
       </div>
-
       <div style={{
         maxWidth: "1100px",
         margin: "0 auto",
@@ -213,31 +212,30 @@ function Header({ showLogout, onLogout }) {
         padding: "18px 0",
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-          <img
-            src={SMS_LOGO_SVG}
-            alt="Secret Magic Store"
-            style={{ height: "48px", width: "auto", objectFit: "contain", display: "block" }}
-          />
+          <img src={SMS_LOGO_SVG} alt="Secret Magic Store"
+            style={{ height: "48px", width: "auto", objectFit: "contain", display: "block" }} />
           <div style={{ width: "1px", height: "36px", background: "rgba(255,255,255,0.3)" }} />
           <div style={{ ...styles.label, color: "rgba(255,255,255,0.85)" }}>Inner Circle</div>
         </div>
-
-        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
           <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "11px", letterSpacing: "0.5px" }}>v 1.1</span>
           {showLogout && (
-            <button
-              onClick={onLogout}
-              style={{
-                background: "transparent",
-                color: "rgba(255,255,255,0.85)",
-                border: "1px solid rgba(255,255,255,0.4)",
-                borderRadius: "3px",
-                padding: "8px 18px",
-                fontSize: "13px",
-                cursor: "pointer",
-                letterSpacing: "0.3px",
-              }}
-            >
+            <a href={SHOPIFY_ACCOUNT_URL} target="_blank" rel="noopener noreferrer"
+              style={{ color: "rgba(255,255,255,0.75)", fontSize: "13px", textDecoration: "none", display: "flex", alignItems: "center", gap: "5px" }}>
+              👤 Mein Konto
+            </a>
+          )}
+          {showLogout && (
+            <button onClick={onLogout} style={{
+              background: "transparent",
+              color: "rgba(255,255,255,0.85)",
+              border: "1px solid rgba(255,255,255,0.4)",
+              borderRadius: "3px",
+              padding: "8px 18px",
+              fontSize: "13px",
+              cursor: "pointer",
+              letterSpacing: "0.3px",
+            }}>
               Ausloggen
             </button>
           )}
@@ -451,85 +449,10 @@ function Dashboard({ onAreaSelect, activeArea, onLogout }) {
         maxWidth: "1100px",
         margin: "0 auto",
         width: "100%",
-        display: "flex",
         flex: 1,
         padding: "0 24px",
-        gap: "0",
       }}>
-        {/* Sidebar */}
-        <aside style={{
-          width: "220px",
-          borderRight: `1px solid ${SMS_BORDER}`,
-          padding: "32px 0",
-          flexShrink: 0,
-        }}>
-          <div style={{
-            ...styles.label,
-            paddingLeft: "8px",
-            marginBottom: "16px",
-            display: "block",
-          }}>Bereiche</div>
-
-          {areas.map(area => {
-            const isActive = activeArea?.id === area.id;
-            return (
-              <button
-                key={area.id}
-                onClick={() => onAreaSelect(area)}
-                style={{
-                  width: "100%",
-                  textAlign: "left",
-                  background: isActive ? `${SMS_GREEN}18` : "transparent",
-                  border: "none",
-                  borderLeft: isActive ? `3px solid ${SMS_GREEN}` : "3px solid transparent",
-                  color: isActive ? SMS_TEXT : SMS_MUTED,
-                  padding: "12px 16px",
-                  cursor: "pointer",
-                  fontSize: "14px",
-                  fontWeight: isActive ? "700" : "500",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
-                  transition: "all 0.15s",
-                  letterSpacing: "0.3px",
-                }}
-                onMouseOver={e => { if (!isActive) { e.currentTarget.style.color = SMS_TEXT; e.currentTarget.style.background = `${SMS_GREEN}10`; }}}
-                onMouseOut={e => { if (!isActive) { e.currentTarget.style.color = SMS_MUTED; e.currentTarget.style.background = "transparent"; }}}
-              >
-                <span style={{ fontSize: "18px" }}>{area.icon}</span>
-                <div>
-                  <div style={{ fontSize: "13px", fontWeight: "700", textTransform: "uppercase", letterSpacing: "0.5px" }}>{area.label}</div>
-                  <div style={{ fontSize: "11px", color: "#555", marginTop: "2px" }}>{area.description}</div>
-                </div>
-              </button>
-            );
-          })}
-
-          <div style={{ borderTop: `1px solid ${SMS_BORDER}`, marginTop: "24px", paddingTop: "16px" }}>
-            <a
-              href={SHOPIFY_ACCOUNT_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "8px",
-                padding: "10px 16px",
-                color: "#555",
-                textDecoration: "none",
-                fontSize: "13px",
-                transition: "color 0.15s",
-              }}
-              onMouseOver={e => e.currentTarget.style.color = "#ccc"}
-              onMouseOut={e => e.currentTarget.style.color = "#555"}
-            >
-              <span>👤</span> Mein Konto
-            </a>
-          </div>
-        </aside>
-
-        {/* Main */}
-        <main style={{ flex: 1, padding: "32px 0 32px 32px", display: "flex", flexDirection: "column" }}>
+        <main style={{ flex: 1, padding: "32px 0", display: "flex", flexDirection: "column" }}>
           {!activeArea ? (
             <div style={{ textAlign: "center", paddingTop: "40px" }}>
               <div style={styles.label}>Dein Bereich</div>
@@ -538,10 +461,9 @@ function Dashboard({ onAreaSelect, activeArea, onLogout }) {
                 Willkommen im Inner Circle
               </h2>
               <p style={{ color: SMS_MUTED, fontSize: "15px", marginBottom: "48px" }}>
-                Wähle einen Bereich auf der linken Seite.
+                Wähle einen Bereich.
               </p>
-
-              <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "16px", maxWidth: "580px", margin: "0 auto", textAlign: "left" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "20px", maxWidth: "960px", margin: "0 auto", textAlign: "left" }}>
                 {areas.map(area => (
                   <button
                     key={area.id}
@@ -549,46 +471,44 @@ function Dashboard({ onAreaSelect, activeArea, onLogout }) {
                     style={{
                       background: SMS_WHITE,
                       border: `1px solid ${SMS_BORDER}`,
-                      borderRadius: "6px",
+                      borderRadius: "8px",
                       overflow: "hidden",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "0",
                       cursor: area.comingSoon ? "default" : "pointer",
                       transition: "border-color 0.15s, box-shadow 0.15s",
-                      color: area.comingSoon ? "#aaa" : SMS_TEXT,
-                      boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
                       opacity: area.comingSoon ? 0.55 : 1,
                       textAlign: "left",
+                      padding: "0",
+                      boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
                     }}
-                    onMouseOver={e => { e.currentTarget.style.borderColor = SMS_GREEN; e.currentTarget.style.boxShadow = `0 4px 16px ${SMS_GREEN}22`; }}
+                    onMouseOver={e => { if (!area.comingSoon) { e.currentTarget.style.borderColor = SMS_GREEN; e.currentTarget.style.boxShadow = `0 4px 16px ${SMS_GREEN}22`; }}}
                     onMouseOut={e => { e.currentTarget.style.borderColor = SMS_BORDER; e.currentTarget.style.boxShadow = "0 2px 8px rgba(0,0,0,0.06)"; }}
                   >
-                    <span style={{
-                      fontSize: "28px",
-                      width: "52px",
-                      height: "52px",
-                      background: `${SMS_GREEN}15`,
-                      borderRadius: "6px",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      flexShrink: 0,
-                    }}>{area.icon}</span>
-                    <div style={{ flex: 1 }}>
-                      <div style={{ fontWeight: "800", textTransform: "uppercase", fontSize: "14px", letterSpacing: "1px", marginBottom: "4px" }}>
-                        {area.label}
-                      </div>
-                      <div style={{ color: SMS_MUTED, fontSize: "13px" }}>{area.description}</div>
+                    <div style={{ width: "100%", height: "140px", overflow: "hidden", background: `${SMS_GREEN}15`, position: "relative" }}>
+                      {IMAGES[area.id] ? (
+                        <img src={IMAGES[area.id]} alt={area.label}
+                          style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                      ) : (
+                        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", fontSize: "40px" }}>{area.icon}</div>
+                      )}
+                      {area.comingSoon && (
+                        <div style={{
+                          position: "absolute", top: 8, right: 8,
+                          background: SMS_TOPBAR, color: "#fff",
+                          fontSize: "10px", fontWeight: "700", letterSpacing: "1px",
+                          padding: "3px 8px", borderRadius: "3px",
+                        }}>BALD</div>
+                      )}
                     </div>
-                    <span style={{ color: SMS_GREEN, fontSize: "18px" }}>›</span>
+                    <div style={{ padding: "14px 16px" }}>
+                      <div style={{ fontWeight: "800", textTransform: "uppercase", fontSize: "13px", letterSpacing: "1px", marginBottom: "3px", color: area.comingSoon ? "#aaa" : SMS_TEXT }}>{area.label}</div>
+                      <div style={{ color: SMS_MUTED, fontSize: "12px" }}>{area.description}</div>
+                    </div>
                   </button>
                 ))}
               </div>
             </div>
           ) : (
             <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: "16px" }}>
-              {/* Bereich-Header */}
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "12px" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                   <span style={{ fontSize: "24px" }}>{activeArea.icon}</span>
@@ -632,8 +552,6 @@ function Dashboard({ onAreaSelect, activeArea, onLogout }) {
                   </button>
                 </div>
               </div>
-
-              {/* Iframe */}
               <div style={{
                 flex: 1,
                 background: SMS_CARD,
@@ -649,11 +567,9 @@ function Dashboard({ onAreaSelect, activeArea, onLogout }) {
                   allow="fullscreen"
                 />
               </div>
-
-              {/* Hinweis */}
               <div style={{
-                background: "#161616",
-                border: `1px solid ${SMS_BORDER}`,
+                background: "#f0f7f3",
+                border: `1px solid ${SMS_GREEN}33`,
                 borderRadius: "4px",
                 padding: "12px 16px",
                 display: "flex",
@@ -661,8 +577,8 @@ function Dashboard({ onAreaSelect, activeArea, onLogout }) {
                 gap: "12px",
                 fontSize: "12px",
               }}>
-                <span style={{ color: SMS_GREEN }}>!</span>
-                <span style={{ color: SMS_MUTED }}>Falls der Inhalt nicht angezeigt wird, bitte direkt auf der Website öffnen. Du bist bereits eingeloggt.</span>
+                <span style={{ color: SMS_GREEN, fontWeight: "700" }}>ℹ</span>
+                <span style={{ color: SMS_MUTED }}>Falls der Inhalt nicht angezeigt wird, bitte direkt auf der Website öffnen.</span>
                 <a
                   href={activeArea.url}
                   target="_blank"
