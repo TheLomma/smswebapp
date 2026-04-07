@@ -28,7 +28,7 @@ const IMAGES = {
 };
 
 const areas = [
-  { id: "dachboden",    label: "Dachboden",            description: "Exklusive Inhalte & Überraschungen", url: "https://secret-magic-store.de/pages/inner-circle",                                                         icon: "🏠" },
+  { id: "dachboden",    label: "Dachboden",            description: "Exklusive Inhalte & Überraschungen", url: "https://secret-magic-store.de/pages/dachboden-inner-circle",                                                         icon: "🏠" },
   { id: "wohnzimmer",   label: "Wohnzimmer",           description: "Der Inner Circle Blog",            url: "https://secret-magic-store.de/blogs/inner-circle",                                                          icon: "🛋️" },
   { id: "badezimmer",   label: "Badezimmer",           description: "Facebook Community",               url: "https://www.facebook.com/groups/531332315756823/",                                                           icon: "🚿" },
   { id: "kueche",       label: "Küche",               description: "Rezepte & mehr",                   url: "https://secret-magic-store.de/pages/kuche-inner-circle",                                                    icon: "🍳" },
@@ -121,7 +121,7 @@ function Header({ showLogout, onLogout }) {
           <div style={{ ...styles.label, color: "rgba(255,255,255,0.85)" }}>Inner Circle</div>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-          <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "11px", letterSpacing: "0.5px" }}>v 1.3</span>
+          <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "11px", letterSpacing: "0.5px" }}>v 1.4</span>
           {showLogout && (
             <a href={SHOPIFY_ACCOUNT_URL} target="_blank" rel="noopener noreferrer"
               style={{ color: "rgba(255,255,255,0.75)", fontSize: "13px", textDecoration: "none", whiteSpace: "nowrap" }}>
