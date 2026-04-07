@@ -111,25 +111,25 @@ const SMS_LOGO_SVG = `data:image/svg+xml;utf8,${encodeURIComponent(`
 
 function Header({ showLogout, onLogout }) {
   return (
-    <header style={{ background: SMS_GREEN, borderBottom: `1px solid ${SMS_GREEN_DARK}`, padding: "0 24px" }}>
+    <header style={{ background: SMS_GREEN, borderBottom: `1px solid ${SMS_GREEN_DARK}`, padding: "0 24px", boxSizing: "border-box" }}>
       <div style={{ background: SMS_TOPBAR, textAlign: "center", padding: "7px", fontSize: "12px", fontWeight: "500", letterSpacing: "0.5px", color: "#ccc", margin: "0 -24px" }}>
         Exklusiver Bereich · Nur für Inner-Circle-Mitglieder
       </div>
-      <div style={{ maxWidth: "1100px", margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 0" }}>
+      <div style={{ maxWidth: "1100px", margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 0", flexWrap: "wrap", gap: "8px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-          <img src={SMS_LOGO_SVG} alt="Secret Magic Store" style={{ height: "48px", width: "auto", objectFit: "contain", display: "block" }} />
+          <img src={SMS_LOGO_SVG} alt="Secret Magic Store" style={{ height: "clamp(32px, 6vw, 48px)", width: "auto", objectFit: "contain", display: "block" }} />
           <div style={{ ...styles.label, color: "rgba(255,255,255,0.85)" }}>Inner Circle</div>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-          <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "11px", letterSpacing: "0.5px" }}>v 1.2</span>
+          <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "11px", letterSpacing: "0.5px" }}>v 1.3</span>
           {showLogout && (
             <a href={SHOPIFY_ACCOUNT_URL} target="_blank" rel="noopener noreferrer"
-              style={{ color: "rgba(255,255,255,0.75)", fontSize: "13px", textDecoration: "none" }}>
+              style={{ color: "rgba(255,255,255,0.75)", fontSize: "13px", textDecoration: "none", whiteSpace: "nowrap" }}>
               👤 Mein Konto
             </a>
           )}
           {showLogout && (
-            <button onClick={onLogout} style={{ background: "transparent", color: "rgba(255,255,255,0.85)", border: "1px solid rgba(255,255,255,0.4)", borderRadius: "3px", padding: "8px 18px", fontSize: "13px", cursor: "pointer" }}>
+            <button onClick={onLogout} style={{ background: "transparent", color: "rgba(255,255,255,0.85)", border: "1px solid rgba(255,255,255,0.4)", borderRadius: "3px", padding: "7px 14px", fontSize: "12px", cursor: "pointer", whiteSpace: "nowrap" }}>
               Ausloggen
             </button>
           )}
@@ -195,7 +195,7 @@ function LandingPage({ onEnter }) {
   return (
     <div style={styles.page}>
       <Header showLogout={false} />
-      <div style={{ background: `linear-gradient(to bottom, ${SMS_GREEN}22, ${SMS_BG})`, textAlign: "center", padding: "80px 24px 60px", borderBottom: `1px solid ${SMS_BORDER}`, color: SMS_TEXT }}>
+      <div style={{ background: `linear-gradient(to bottom, ${SMS_GREEN}22, ${SMS_BG})`, textAlign: "center", padding: "clamp(32px, 8vw, 80px) 16px clamp(24px, 6vw, 60px)", borderBottom: `1px solid ${SMS_BORDER}`, color: SMS_TEXT }}>
         <div style={styles.label}>Willkommen zurück</div>
         <hr style={styles.divider} />
         <h1 style={{ fontSize: "clamp(28px, 5vw, 44px)", fontWeight: "900", color: SMS_TEXT, letterSpacing: "2px", margin: "0 0 16px", textTransform: "uppercase" }}>Inner Circle</h1>
@@ -212,7 +212,7 @@ function LandingPage({ onEnter }) {
           <p style={{ color: "#555", fontSize: "12px", margin: 0 }}>Du wirst zum offiziellen Secret Magic Store weitergeleitet.</p>
         </div>
       </div>
-      <div style={{ maxWidth: "1100px", margin: "60px auto", padding: "0 24px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "24px" }}>
+      <div style={{ maxWidth: "1100px", margin: "32px auto", padding: "0 16px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "24px" }}>
         {areas.map(area => <AreaCard key={area.id} area={area} />)}
       </div>
       <Footer />
@@ -269,14 +269,14 @@ function Dashboard({ onLogout }) {
   return (
     <div style={{ ...styles.page, display: "flex", flexDirection: "column" }}>
       <Header showLogout onLogout={onLogout} />
-      <div style={{ maxWidth: "1100px", margin: "0 auto", width: "100%", flex: 1, padding: "0 24px" }}>
+      <div style={{ maxWidth: "1100px", margin: "0 auto", width: "100%", flex: 1, padding: "0 24px", boxSizing: "border-box" }}>
         <main style={{ padding: "32px 0" }}>
           <div style={{ textAlign: "center", paddingTop: "20px" }}>
             <div style={styles.label}>Dein Bereich</div>
             <hr style={styles.divider} />
-            <h2 style={{ fontSize: "26px", fontWeight: "900", textTransform: "uppercase", letterSpacing: "2px", marginBottom: "12px", color: SMS_TEXT }}>Willkommen im Inner Circle</h2>
+            <h2 style={{ fontSize: "clamp(18px, 5vw, 26px)", fontWeight: "900", textTransform: "uppercase", letterSpacing: "2px", marginBottom: "12px", color: SMS_TEXT }}>Willkommen im Inner Circle</h2>
             <p style={{ color: SMS_MUTED, fontSize: "15px", marginBottom: "40px" }}>Wähle einen Bereich – er öffnet sich auf der Website.</p>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "20px", maxWidth: "960px", margin: "0 auto", textAlign: "left" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "16px", maxWidth: "960px", margin: "0 auto", textAlign: "left" }}>
               {areas.map(area => <AreaCard key={area.id} area={area} />)}
             </div>
           </div>
