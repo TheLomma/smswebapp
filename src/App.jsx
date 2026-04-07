@@ -214,7 +214,7 @@ function Header({ showLogout, onLogout }) {
         <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
           <img src={SMS_LOGO_SVG} alt="Secret Magic Store"
             style={{ height: "48px", width: "auto", objectFit: "contain", display: "block" }} />
-          <div style={{ width: "1px", height: "36px", background: "rgba(255,255,255,0.3)" }} />
+          <div style={{ display: "none" }} />
           <div style={{ ...styles.label, color: "rgba(255,255,255,0.85)" }}>Inner Circle</div>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
