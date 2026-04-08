@@ -28,6 +28,7 @@ const IMAGES = {
 };
 
 const areas = [
+  { id: "neuheiten",   label: "🆕 Alle Neuheiten",        description: "Die zuletzt hinzugefügten Artikel im Shop", url: "https://secret-magic-store.de/collections/alle-neuheiten", icon: "🌟", highlight: true },
   { id: "dachboden",    label: "Dachboden",            description: "Exklusive Inhalte & Überraschungen", url: "https://secret-magic-store.de/pages/dachboden-inner-circle",                                                         icon: "🏠" },
   { id: "wohnzimmer",   label: "Wohnzimmer",           description: "Der Inner Circle Blog",            url: "https://secret-magic-store.de/blogs/inner-circle",                                                          icon: "🛋️" },
   { id: "badezimmer",   label: "Badezimmer",           description: "Facebook Community",               url: "https://www.facebook.com/groups/531332315756823/",                                                           icon: "🚿" },
@@ -121,7 +122,7 @@ function Header({ showLogout, onLogout }) {
           <div style={{ ...styles.label, color: "rgba(255,255,255,0.85)" }}>Inner Circle</div>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-          <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "11px", letterSpacing: "0.5px" }}>v 1.4</span>
+          <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "11px", letterSpacing: "0.5px" }}>v 1.6</span>
           {showLogout && (
             <a href={SHOPIFY_ACCOUNT_URL} target="_blank" rel="noopener noreferrer"
               style={{ color: "rgba(255,255,255,0.75)", fontSize: "13px", textDecoration: "none", whiteSpace: "nowrap" }}>
@@ -158,17 +159,18 @@ function AreaCard({ area }) {
       onClick={e => area.comingSoon && e.preventDefault()}
       style={{
         background: SMS_WHITE,
-        border: `1px solid ${SMS_BORDER}`,
+        border: area.highlight ? `2px solid ${SMS_GOLD}` : `1px solid ${SMS_BORDER}`,
         borderRadius: "8px",
         overflow: "hidden",
         cursor: area.comingSoon ? "default" : "pointer",
         opacity: area.comingSoon ? 0.55 : 1,
         textDecoration: "none",
         display: "block",
-        boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
+        boxShadow: area.highlight ? `0 4px 20px ${SMS_GOLD}44` : "0 2px 8px rgba(0,0,0,0.06)",
         transition: "border-color 0.15s, box-shadow 0.15s",
+        gridColumn: area.highlight ? "1 / -1" : undefined,
       }}
-      onMouseOver={e => { if (!area.comingSoon) { e.currentTarget.style.borderColor = SMS_GREEN; e.currentTarget.style.boxShadow = `0 4px 16px ${SMS_GREEN}22`; }}}
+      onMouseOver={e => { if (!area.comingSoon) { e.currentTarget.style.borderColor = area.highlight ? SMS_GOLD : SMS_GREEN; e.currentTarget.style.boxShadow = `0 4px 16px ${area.highlight ? SMS_GOLD : SMS_GREEN}33`; }}}
       onMouseOut={e => { e.currentTarget.style.borderColor = SMS_BORDER; e.currentTarget.style.boxShadow = "0 2px 8px rgba(0,0,0,0.06)"; }}
     >
       <div style={{ width: "100%", height: "140px", overflow: "hidden", background: `${SMS_GREEN}15`, position: "relative" }}>
@@ -180,11 +182,11 @@ function AreaCard({ area }) {
         {area.comingSoon ? (
           <div style={{ position: "absolute", top: 8, right: 8, background: SMS_TOPBAR, color: "#fff", fontSize: "10px", fontWeight: "700", letterSpacing: "1px", padding: "3px 8px", borderRadius: "3px" }}>BALD</div>
         ) : (
-          <div style={{ position: "absolute", top: 8, right: 8, background: "rgba(0,0,0,0.45)", color: "#fff", fontSize: "10px", fontWeight: "700", letterSpacing: "1px", padding: "3px 8px", borderRadius: "3px" }}>↗ ÖFFNEN</div>
+          <div style={{ position: "absolute", top: 8, right: 8, background: area.highlight ? SMS_GOLD : "rgba(0,0,0,0.45)", color: "#fff", fontSize: "10px", fontWeight: "700", letterSpacing: "1px", padding: "3px 8px", borderRadius: "3px" }}>{area.highlight ? "🆕 NEU IM SHOP" : "↗ ÖFFNEN"}</div>
         )}
       </div>
       <div style={{ padding: "14px 16px" }}>
-        <div style={{ fontWeight: "800", textTransform: "uppercase", fontSize: "13px", letterSpacing: "1px", marginBottom: "3px", color: area.comingSoon ? "#aaa" : SMS_TEXT }}>{area.label}</div>
+        <div style={{ fontWeight: "800", textTransform: "uppercase", fontSize: "13px", letterSpacing: "1px", marginBottom: "3px", color: area.comingSoon ? "#aaa" : area.highlight ? SMS_GOLD : SMS_TEXT }}>{area.label}</div>
         <div style={{ color: SMS_MUTED, fontSize: "12px" }}>{area.description}</div>
       </div>
     </a>
