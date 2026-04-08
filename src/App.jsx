@@ -150,6 +150,77 @@ function Footer() {
   );
 }
 
+// Neuheiten Slider – Produkte hier manuell pflegen
+const NEUHEITEN = [
+  { id: 1, title: "A.P.E.", author: "Craig Petty", img: "https://secret-magic-store.de/cdn/shop/files/APE_Craig_Petty.jpg", url: "https://secret-magic-store.de/collections/alle-neuheiten" },
+  { id: 2, title: "Neuheit 2", author: "Künstler", img: "", url: "https://secret-magic-store.de/collections/alle-neuheiten" },
+  { id: 3, title: "Neuheit 3", author: "Künstler", img: "", url: "https://secret-magic-store.de/collections/alle-neuheiten" },
+  { id: 4, title: "Neuheit 4", author: "Künstler", img: "", url: "https://secret-magic-store.de/collections/alle-neuheiten" },
+  { id: 5, title: "Neuheit 5", author: "Künstler", img: "", url: "https://secret-magic-store.de/collections/alle-neuheiten" },
+];
+
+function NeuheitenSlider() {
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActive(prev => (prev + 1) % NEUHEITEN.length);
+    }, 3500);
+    return () => clearInterval(timer);
+  }, []);
+
+  const current = NEUHEITEN[active];
+
+  return (
+    <div style={{ maxWidth: "960px", margin: "0 auto 28px", borderRadius: "12px", overflow: "hidden", border: `2px solid ${SMS_GOLD}`, boxShadow: `0 8px 32px ${SMS_GOLD}33`, position: "relative", background: "#1a3d28" }}>
+      {/* Hauptbild */}
+      <a href={current.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", display: "block", position: "relative" }}>
+        <div style={{ width: "100%", height: "clamp(180px, 35vw, 320px)", overflow: "hidden", position: "relative" }}>
+          {current.img ? (
+            <img src={current.img} alt={current.title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", transition: "opacity 0.4s" }} />
+          ) : (
+            <div style={{ width: "100%", height: "100%", background: `linear-gradient(135deg, ${SMS_GREEN}, #1a3d28)`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "48px" }}>🌟</div>
+          )}
+          {/* Dunkler Gradient über dem Bild */}
+          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.1) 60%, transparent 100%)" }} />
+          {/* Titel unten links */}
+          <div style={{ position: "absolute", bottom: "16px", left: "20px" }}>
+            <div style={{ color: SMS_GOLD, fontSize: "11px", fontWeight: "700", letterSpacing: "2px", textTransform: "uppercase", marginBottom: "4px" }}>🆕 Neu im Shop</div>
+            <div style={{ color: "#fff", fontSize: "clamp(16px, 3vw, 24px)", fontWeight: "900", letterSpacing: "1px" }}>{current.title}</div>
+            <div style={{ color: "rgba(255,255,255,0.75)", fontSize: "13px" }}>{current.author}</div>
+          </div>
+          {/* Pfeil rechts */}
+          <div style={{ position: "absolute", top: "50%", right: "16px", transform: "translateY(-50%)", background: "rgba(0,0,0,0.4)", color: "#fff", borderRadius: "50%", width: "36px", height: "36px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "18px", cursor: "pointer" }}
+            onClick={e => { e.preventDefault(); setActive(prev => (prev + 1) % NEUHEITEN.length); }}>
+            ›
+          </div>
+          <div style={{ position: "absolute", top: "50%", left: "16px", transform: "translateY(-50%)", background: "rgba(0,0,0,0.4)", color: "#fff", borderRadius: "50%", width: "36px", height: "36px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "18px", cursor: "pointer" }}
+            onClick={e => { e.preventDefault(); setActive(prev => (prev - 1 + NEUHEITEN.length) % NEUHEITEN.length); }}>
+            ‹
+          </div>
+        </div>
+      </a>
+      {/* Thumbnail-Leiste */}
+      <div style={{ display: "flex", gap: "8px", padding: "12px 16px", background: "rgba(0,0,0,0.4)", overflowX: "auto" }}>
+        {NEUHEITEN.map((p, i) => (
+          <div key={p.id} onClick={() => setActive(i)}
+            style={{ width: "52px", height: "52px", flexShrink: 0, borderRadius: "6px", overflow: "hidden", cursor: "pointer", border: i === active ? `2px solid ${SMS_GOLD}` : "2px solid transparent", transition: "border 0.2s", background: `${SMS_GREEN}88` }}>
+            {p.img ? (
+              <img src={p.img} alt={p.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            ) : (
+              <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "20px" }}>🌟</div>
+            )}
+          </div>
+        ))}
+        <a href="https://secret-magic-store.de/collections/alle-neuheiten" target="_blank" rel="noopener noreferrer"
+          style={{ marginLeft: "auto", alignSelf: "center", background: SMS_GOLD, color: "#fff", fontWeight: "800", fontSize: "12px", letterSpacing: "1px", textTransform: "uppercase", padding: "8px 16px", borderRadius: "6px", textDecoration: "none", whiteSpace: "nowrap", flexShrink: 0 }}>
+          Alle Neuheiten →
+        </a>
+      </div>
+    </div>
+  );
+}
+
 function NeuheitenBanner() {
   return (
     <a
@@ -266,7 +337,7 @@ function LandingPage({ onEnter }) {
         </div>
       </div>
       <div style={{ maxWidth: "960px", margin: "24px auto 0", padding: "0 16px" }}>
-        <NeuheitenBanner />
+        <NeuheitenSlider />
       </div>
       <div style={{ maxWidth: "1100px", margin: "0 auto", padding: "0 16px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "24px" }}>
         {areas.map(area => <AreaCard key={area.id} area={area} />)}
@@ -332,7 +403,7 @@ function Dashboard({ onLogout }) {
             <hr style={styles.divider} />
             <h2 style={{ fontSize: "clamp(18px, 5vw, 26px)", fontWeight: "900", textTransform: "uppercase", letterSpacing: "2px", marginBottom: "12px", color: SMS_TEXT }}>Willkommen im Inner Circle</h2>
             <p style={{ color: SMS_MUTED, fontSize: "15px", marginBottom: "32px" }}>Wähle einen Bereich – er öffnet sich auf der Website.</p>
-            <NeuheitenBanner />
+            <NeuheitenSlider />
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "16px", maxWidth: "960px", margin: "0 auto", textAlign: "left" }}>
               {areas.filter(a => !a.highlight).map(area => <AreaCard key={area.id} area={area} />)}
             </div>
