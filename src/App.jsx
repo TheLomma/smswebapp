@@ -306,7 +306,7 @@ function ScrollToTopBtn() {
 
 function LogoutConfirm({ onConfirm, onCancel, dark, t, lang }) {
   return (
-    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.55)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center", padding: "24px" }} className="sms-fadein">
+    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.35)", zIndex: 1000, display: "flex", alignItems: "flex-start", justifyContent: "flex-end", padding: "70px 24px 0" }} className="sms-fadein">
       <div style={{ background: dark ? DARK.white : SMS_WHITE, border: `1px solid ${dark ? DARK.border : SMS_BORDER}`, borderRadius: "12px", padding: "32px 28px", maxWidth: "340px", width: "100%", textAlign: "center", boxShadow: "0 8px 40px rgba(0,0,0,0.3)" }}>
         <div style={{ fontSize: "36px", marginBottom: "12px" }}>🚪</div>
         <h3 style={{ margin: "0 0 10px", fontWeight: "900", fontSize: "18px", color: dark ? DARK.text : SMS_TEXT, textTransform: "uppercase", letterSpacing: "1px" }}>{t.logout}?</h3>
