@@ -1,4 +1,22 @@
-import { useState, useEffect, createContext, useContext } from "react";
+import { useState, useEffect, createContext, useContext, useRef } from "react";
+
+const fadeInStyle = `
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.sms-fadeinup { animation: fadeInUp 0.55s cubic-bezier(.22,1,.36,1) both; }
+.sms-fadein   { animation: fadeIn 0.4s ease both; }
+`;
+if (typeof document !== 'undefined') {
+  const s = document.createElement('style');
+  s.textContent = fadeInStyle;
+  document.head.appendChild(s);
+}
 
 const TRANSLATIONS = {
   de: {
@@ -162,9 +180,10 @@ const styles = {
   divider: {
     width: "48px",
     height: "3px",
-    background: SMS_GREEN,
+    background: SMS_GOLD,
     margin: "16px auto",
     border: "none",
+    borderRadius: "2px",
   },
 };
 
@@ -184,6 +203,7 @@ const SMS_LOGO_SVG = `data:image/svg+xml;utf8,${encodeURIComponent(`
 `)}`;
 
 function Header({ showLogout, onLogout }) {
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const { dark, setDark, lang, setLang, t } = useApp();
   return (
     <header style={{ background: dark ? DARK.green : SMS_GREEN, borderBottom: `1px solid ${dark ? DARK.greenDk : SMS_GREEN_DARK}`, padding: "0 24px", boxSizing: "border-box" }}>
@@ -204,21 +224,57 @@ function Header({ showLogout, onLogout }) {
           <button onClick={() => setDark(d => !d)} title={dark ? "Light Mode" : "Dark Mode"} style={{ background: "rgba(255,255,255,0.12)", border: "1px solid rgba(255,255,255,0.3)", borderRadius: "4px", color: "#fff", fontSize: "14px", padding: "5px 10px", cursor: "pointer" }}>
             {dark ? "☀️" : "🌙"}
           </button>
-          <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "11px", letterSpacing: "0.5px" }}>v 2.0</span>
+          <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "11px", letterSpacing: "0.5px" }}>v 2.1</span>
           {showLogout && (
             <a href={SHOPIFY_ACCOUNT_URL} target="_blank" rel="noopener noreferrer"
               style={{ color: "rgba(255,255,255,0.75)", fontSize: "13px", textDecoration: "none", whiteSpace: "nowrap" }}>
-              👤 Mein Konto
+              {t.myAccount}
             </a>
           )}
           {showLogout && (
-            <button onClick={onLogout} style={{ background: "transparent", color: "rgba(255,255,255,0.85)", border: "1px solid rgba(255,255,255,0.4)", borderRadius: "3px", padding: "7px 14px", fontSize: "12px", cursor: "pointer", whiteSpace: "nowrap" }}>
-              Ausloggen
+            <button onClick={() => setShowLogoutConfirm(true)} style={{ background: "transparent", color: "rgba(255,255,255,0.85)", border: "1px solid rgba(255,255,255,0.4)", borderRadius: "3px", padding: "7px 14px", fontSize: "12px", cursor: "pointer", whiteSpace: "nowrap" }}>
+              {t.logout}
             </button>
           )}
+          {showLogoutConfirm && <LogoutConfirm onConfirm={() => { setShowLogoutConfirm(false); onLogout(); }} onCancel={() => setShowLogoutConfirm(false)} dark={dark} t={t} lang={lang} />}
         </div>
       </div>
     </header>
+  );
+}
+
+function ScrollToTopBtn() {
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setVisible(window.scrollY > 300);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  if (!visible) return null;
+  return (
+    <button
+      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      title="Nach oben"
+      style={{ position: "fixed", bottom: "28px", right: "24px", zIndex: 999, width: "44px", height: "44px", borderRadius: "50%", background: SMS_GOLD, color: "#fff", border: "none", fontSize: "20px", cursor: "pointer", boxShadow: "0 4px 16px rgba(0,0,0,0.25)", display: "flex", alignItems: "center", justifyContent: "center", transition: "background 0.2s" }}
+      onMouseOver={e => e.currentTarget.style.background = "#b8922e"}
+      onMouseOut={e => e.currentTarget.style.background = SMS_GOLD}
+    >↑</button>
+  );
+}
+
+function LogoutConfirm({ onConfirm, onCancel, dark, t, lang }) {
+  return (
+    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.55)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center", padding: "24px" }} className="sms-fadein">
+      <div style={{ background: dark ? DARK.white : SMS_WHITE, border: `1px solid ${dark ? DARK.border : SMS_BORDER}`, borderRadius: "12px", padding: "32px 28px", maxWidth: "340px", width: "100%", textAlign: "center", boxShadow: "0 8px 40px rgba(0,0,0,0.3)" }}>
+        <div style={{ fontSize: "36px", marginBottom: "12px" }}>🚪</div>
+        <h3 style={{ margin: "0 0 10px", fontWeight: "900", fontSize: "18px", color: dark ? DARK.text : SMS_TEXT, textTransform: "uppercase", letterSpacing: "1px" }}>{t.logout}?</h3>
+        <p style={{ color: dark ? DARK.muted : SMS_MUTED, fontSize: "14px", marginBottom: "24px", lineHeight: 1.6 }}>{lang === "en" ? "Are you sure you want to log out?" : "Möchtest du dich wirklich ausloggen?"}</p>
+        <div style={{ display: "flex", gap: "12px" }}>
+          <button onClick={onCancel} style={{ flex: 1, padding: "11px", borderRadius: "6px", border: `1px solid ${dark ? DARK.border : SMS_BORDER}`, background: "transparent", color: dark ? DARK.muted : SMS_MUTED, fontWeight: "700", cursor: "pointer", fontSize: "13px" }}>{t.back}</button>
+          <button onClick={onConfirm} style={{ flex: 1, padding: "11px", borderRadius: "6px", border: "none", background: SMS_GREEN, color: "#fff", fontWeight: "800", cursor: "pointer", fontSize: "13px", letterSpacing: "0.5px" }}>{t.logout}</button>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -426,6 +482,7 @@ function NeuheitenBanner() {
 }
 
 function AreaCard({ area }) {
+  const { dark, t } = useApp();
   return (
     <a
       href={area.comingSoon ? undefined : area.url}
@@ -433,8 +490,8 @@ function AreaCard({ area }) {
       rel="noopener noreferrer"
       onClick={e => area.comingSoon && e.preventDefault()}
       style={{
-        background: SMS_WHITE,
-        border: area.highlight ? `2px solid ${SMS_GOLD}` : `1px solid ${SMS_BORDER}`,
+        background: dark ? DARK.white : SMS_WHITE,
+        border: area.highlight ? `2px solid ${SMS_GOLD}` : `1px solid ${dark ? DARK.border : SMS_BORDER}`,
         borderRadius: "8px",
         overflow: "hidden",
         cursor: area.comingSoon ? "default" : "pointer",
@@ -442,11 +499,11 @@ function AreaCard({ area }) {
         textDecoration: "none",
         display: "block",
         boxShadow: area.highlight ? `0 4px 20px ${SMS_GOLD}44` : "0 2px 8px rgba(0,0,0,0.06)",
-        transition: "border-color 0.15s, box-shadow 0.15s",
+        transition: "border-color 0.15s, box-shadow 0.15s, transform 0.15s",
         gridColumn: area.highlight ? "1 / -1" : undefined,
       }}
-      onMouseOver={e => { if (!area.comingSoon) { e.currentTarget.style.borderColor = area.highlight ? SMS_GOLD : SMS_GREEN; e.currentTarget.style.boxShadow = `0 4px 16px ${area.highlight ? SMS_GOLD : SMS_GREEN}33`; }}}
-      onMouseOut={e => { e.currentTarget.style.borderColor = SMS_BORDER; e.currentTarget.style.boxShadow = "0 2px 8px rgba(0,0,0,0.06)"; }}
+      onMouseOver={e => { if (!area.comingSoon) { e.currentTarget.style.borderColor = area.highlight ? SMS_GOLD : SMS_GREEN; e.currentTarget.style.boxShadow = `0 4px 16px ${area.highlight ? SMS_GOLD : SMS_GREEN}33`; e.currentTarget.style.transform = "scale(1.02)"; }}}
+      onMouseOut={e => { e.currentTarget.style.borderColor = dark ? DARK.border : SMS_BORDER; e.currentTarget.style.boxShadow = "0 2px 8px rgba(0,0,0,0.06)"; e.currentTarget.style.transform = "scale(1)"; }}
     >
       <div style={{ width: "100%", height: "140px", overflow: "hidden", background: `${SMS_GREEN}15`, position: "relative" }}>
         {IMAGES[area.id] ? (
@@ -455,14 +512,14 @@ function AreaCard({ area }) {
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", fontSize: "40px" }}>{area.icon}</div>
         )}
         {area.comingSoon ? (
-          <div style={{ position: "absolute", top: 8, right: 8, background: SMS_TOPBAR, color: "#fff", fontSize: "10px", fontWeight: "700", letterSpacing: "1px", padding: "3px 8px", borderRadius: "3px" }}>BALD</div>
+          <div style={{ position: "absolute", top: 8, right: 8, background: SMS_TOPBAR, color: "#fff", fontSize: "10px", fontWeight: "700", letterSpacing: "1px", padding: "3px 8px", borderRadius: "3px" }}>{t.soon}</div>
         ) : (
-          <div style={{ position: "absolute", top: 8, right: 8, background: area.highlight ? SMS_GOLD : "rgba(0,0,0,0.45)", color: "#fff", fontSize: "10px", fontWeight: "700", letterSpacing: "1px", padding: "3px 8px", borderRadius: "3px" }}>{area.highlight ? "🆕 NEU IM SHOP" : "↗ ÖFFNEN"}</div>
+          <div style={{ position: "absolute", top: 8, right: 8, background: area.highlight ? SMS_GOLD : "rgba(0,0,0,0.45)", color: "#fff", fontSize: "10px", fontWeight: "700", letterSpacing: "1px", padding: "3px 8px", borderRadius: "3px" }}>{area.highlight ? "🆕 NEU IM SHOP" : t.open}</div>
         )}
       </div>
       <div style={{ padding: "14px 16px" }}>
-        <div style={{ fontWeight: "800", textTransform: "uppercase", fontSize: "13px", letterSpacing: "1px", marginBottom: "3px", color: area.comingSoon ? "#aaa" : area.highlight ? SMS_GOLD : SMS_TEXT }}>{area.label}</div>
-        <div style={{ color: SMS_MUTED, fontSize: "12px" }}>{area.description}</div>
+        <div style={{ fontWeight: "800", textTransform: "uppercase", fontSize: "13px", letterSpacing: "1px", marginBottom: "3px", color: area.comingSoon ? "#aaa" : area.highlight ? SMS_GOLD : (dark ? DARK.text : SMS_TEXT) }}>{area.label}</div>
+        <div style={{ color: dark ? DARK.muted : SMS_MUTED, fontSize: "12px" }}>{area.description}</div>
       </div>
     </a>
   );
@@ -471,7 +528,7 @@ function AreaCard({ area }) {
 function LandingPage({ onEnter }) {
   const { dark, t } = useApp();
   return (
-    <div style={{ ...styles.page, background: dark ? DARK.bg : SMS_BG }}>
+    <div style={{ ...styles.page, background: dark ? DARK.bg : SMS_BG }} className="sms-fadeinup">
       <Header showLogout={false} />
       <div style={{ background: dark ? `linear-gradient(to bottom, ${DARK.green}44, ${DARK.bg})` : `linear-gradient(to bottom, ${SMS_GREEN}22, ${SMS_BG})`, textAlign: "center", padding: "clamp(32px, 8vw, 80px) 16px clamp(24px, 6vw, 60px)", borderBottom: `1px solid ${dark ? DARK.border : SMS_BORDER}`, color: dark ? DARK.text : SMS_TEXT }}>
         <div style={styles.label}>{t.welcome}</div>
@@ -490,6 +547,7 @@ function LandingPage({ onEnter }) {
       <div style={{ maxWidth: "960px", margin: "24px auto 0", padding: "0 16px" }}>
         <NeuheitenSlider />
       </div>
+      <ScrollToTopBtn />
       <div style={{ maxWidth: "1100px", margin: "0 auto", padding: "0 16px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "24px" }}>
         {areas.map(area => <AreaCard key={area.id} area={area} />)}
       </div>
@@ -499,43 +557,41 @@ function LandingPage({ onEnter }) {
 }
 
 function LoginRedirectPage({ onConfirm, onBack }) {
+  const { t } = useApp();
   const [waiting, setWaiting] = useState(false);
   const handleRedirect = () => { setWaiting(true); window.open(SHOPIFY_LOGIN_URL, "_blank"); };
   return (
     <div style={styles.page}>
       <Header showLogout={false} />
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: "calc(100vh - 120px)", padding: "40px 24px" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: "calc(100vh - 120px)", padding: "40px 24px" }} className="sms-fadeinup">
         <div style={{ ...styles.card, width: "100%", maxWidth: "440px" }}>
           <div style={{ textAlign: "center", marginBottom: "32px", color: SMS_TEXT }}>
-            <div style={styles.label}>Schritt 1 von 2</div>
+            <div style={styles.label}>{t.step}</div>
             <hr style={styles.divider} />
-            <h2 style={{ fontSize: "22px", fontWeight: "800", textTransform: "uppercase", letterSpacing: "1px", margin: "0 0 12px", color: SMS_TEXT }}>Login erforderlich</h2>
-            <p style={{ color: SMS_MUTED, fontSize: "14px", lineHeight: 1.6, margin: 0 }}>
-              Melde dich mit deinem Konto auf der offiziellen Secret Magic Store Website an.
-              Danach kannst du hier bestätigen und alle Bereiche freischalten.
-            </p>
+            <h2 style={{ fontSize: "22px", fontWeight: "800", textTransform: "uppercase", letterSpacing: "1px", margin: "0 0 12px", color: SMS_TEXT }}>{t.loginRequired}</h2>
+            <p style={{ color: SMS_MUTED, fontSize: "14px", lineHeight: 1.6, margin: 0 }}>{t.loginDesc2}</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
             {!waiting ? (
               <button style={styles.redBtn} onClick={handleRedirect}
                 onMouseOver={e => e.currentTarget.style.background = SMS_GREEN_DARK}
                 onMouseOut={e => e.currentTarget.style.background = SMS_GREEN}>
-                ZUR LOGIN-SEITE
+                {t.toLogin}
               </button>
             ) : (
               <div style={{ background: "#f0f7f3", border: `1px solid ${SMS_GREEN}44`, borderRadius: "4px", padding: "16px", textAlign: "center" }}>
-                <p style={{ color: SMS_GREEN, fontSize: "13px", fontWeight: "700", margin: "0 0 4px" }}>LOGIN-SEITE GEÖFFNET</p>
-                <p style={{ color: "#555", fontSize: "12px", margin: 0 }}>Kehre nach dem Login hierher zurück</p>
+                <p style={{ color: SMS_GREEN, fontSize: "13px", fontWeight: "700", margin: "0 0 4px" }}>{t.loginOpened}</p>
+                <p style={{ color: "#555", fontSize: "12px", margin: 0 }}>{t.loginReturn}</p>
               </div>
             )}
             {waiting && (
               <button style={styles.redBtn} onClick={onConfirm}
                 onMouseOver={e => e.currentTarget.style.background = SMS_GREEN_DARK}
                 onMouseOut={e => e.currentTarget.style.background = SMS_GREEN}>
-                ✓ ICH BIN EINGELOGGT – WEITER
+                {t.loginConfirm}
               </button>
             )}
-            <button style={styles.outlineBtn} onClick={onBack}>← Zurück</button>
+            <button style={styles.outlineBtn} onClick={onBack}>{t.back}</button>
           </div>
         </div>
       </div>
@@ -546,7 +602,7 @@ function LoginRedirectPage({ onConfirm, onBack }) {
 function Dashboard({ onLogout }) {
   const { dark, t } = useApp();
   return (
-    <div style={{ ...styles.page, background: dark ? DARK.bg : SMS_BG, display: "flex", flexDirection: "column" }}>
+    <div style={{ ...styles.page, background: dark ? DARK.bg : SMS_BG, display: "flex", flexDirection: "column" }} className="sms-fadeinup">
       <Header showLogout onLogout={onLogout} />
       <div style={{ maxWidth: "1100px", margin: "0 auto", width: "100%", flex: 1, padding: "0 24px", boxSizing: "border-box" }}>
         <main style={{ padding: "32px 0" }}>
@@ -556,6 +612,7 @@ function Dashboard({ onLogout }) {
             <h2 style={{ fontSize: "clamp(18px, 5vw, 26px)", fontWeight: "900", textTransform: "uppercase", letterSpacing: "2px", marginBottom: "12px", color: dark ? DARK.text : SMS_TEXT }}>{t.welcomeDash}</h2>
             <p style={{ color: dark ? DARK.muted : SMS_MUTED, fontSize: "15px", marginBottom: "32px" }}>{t.choosArea}</p>
             <NeuheitenSlider />
+            <ScrollToTopBtn />
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "16px", maxWidth: "960px", margin: "0 auto", textAlign: "left" }}>
               {areas.filter(a => !a.highlight).map(area => <AreaCard key={area.id} area={area} />)}
             </div>
@@ -578,16 +635,25 @@ export default function App() {
 
   useEffect(() => {
     const saved = localStorage.getItem("sms_inner_circle_auth");
-    if (saved === "true") setScreen("dashboard");
+    const ts = localStorage.getItem("sms_inner_circle_auth_ts");
+    const maxAge = 30 * 24 * 60 * 60 * 1000; // 30 Tage
+    if (saved === "true" && ts && Date.now() - parseInt(ts) < maxAge) {
+      setScreen("dashboard");
+    } else {
+      localStorage.removeItem("sms_inner_circle_auth");
+      localStorage.removeItem("sms_inner_circle_auth_ts");
+    }
   }, []);
 
   const handleConfirm = () => {
     localStorage.setItem("sms_inner_circle_auth", "true");
+    localStorage.setItem("sms_inner_circle_auth_ts", Date.now().toString());
     setScreen("dashboard");
   };
 
   const handleLogout = () => {
     localStorage.removeItem("sms_inner_circle_auth");
+    localStorage.removeItem("sms_inner_circle_auth_ts");
     setScreen("landing");
   };
 
