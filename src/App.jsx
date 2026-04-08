@@ -122,7 +122,7 @@ function Header({ showLogout, onLogout }) {
           <div style={{ ...styles.label, color: "rgba(255,255,255,0.85)" }}>Inner Circle</div>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-          <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "11px", letterSpacing: "0.5px" }}>v 1.6</span>
+          <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "11px", letterSpacing: "0.5px" }}>v 1.7</span>
           {showLogout && (
             <a href={SHOPIFY_ACCOUNT_URL} target="_blank" rel="noopener noreferrer"
               style={{ color: "rgba(255,255,255,0.75)", fontSize: "13px", textDecoration: "none", whiteSpace: "nowrap" }}>
@@ -147,6 +147,57 @@ function Footer() {
         © 2026 Secret Magic Store · Inner Circle · Nur für Mitglieder
       </p>
     </footer>
+  );
+}
+
+function NeuheitenBanner() {
+  return (
+    <a
+      href="https://secret-magic-store.de/collections/alle-neuheiten"
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{
+        display: "block",
+        textDecoration: "none",
+        background: `linear-gradient(135deg, ${SMS_GREEN} 0%, #2d5a3d 60%, #1a3d28 100%)`,
+        border: `2px solid ${SMS_GOLD}`,
+        borderRadius: "12px",
+        overflow: "hidden",
+        boxShadow: `0 8px 32px ${SMS_GOLD}33`,
+        maxWidth: "960px",
+        margin: "0 auto 28px",
+        position: "relative",
+        transition: "transform 0.2s, box-shadow 0.2s",
+      }}
+      onMouseOver={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = `0 12px 40px ${SMS_GOLD}55`; }}
+      onMouseOut={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = `0 8px 32px ${SMS_GOLD}33`; }}
+    >
+      {/* Dekoratives Muster */}
+      <div style={{ position: "absolute", inset: 0, opacity: 0.06, backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)", backgroundSize: "24px 24px" }} />
+
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "28px 36px", flexWrap: "wrap", gap: "20px", position: "relative" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+          <div style={{ fontSize: "48px", lineHeight: 1 }}>🌟</div>
+          <div>
+            <div style={{ color: SMS_GOLD, fontWeight: "800", fontSize: "11px", letterSpacing: "3px", textTransform: "uppercase", marginBottom: "6px" }}>Jetzt neu im Shop</div>
+            <div style={{ color: "#fff", fontWeight: "900", fontSize: "clamp(18px, 3vw, 26px)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: "6px" }}>Alle Neuheiten entdecken</div>
+            <div style={{ color: "rgba(255,255,255,0.7)", fontSize: "14px" }}>Die zuletzt hinzugefügten Artikel im Secret Magic Store</div>
+          </div>
+        </div>
+        <div style={{
+          background: SMS_GOLD,
+          color: "#fff",
+          fontWeight: "800",
+          fontSize: "13px",
+          letterSpacing: "1px",
+          textTransform: "uppercase",
+          padding: "12px 24px",
+          borderRadius: "6px",
+          whiteSpace: "nowrap",
+          boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
+        }}>Jetzt entdecken →</div>
+      </div>
+    </a>
   );
 }
 
@@ -277,9 +328,10 @@ function Dashboard({ onLogout }) {
             <div style={styles.label}>Dein Bereich</div>
             <hr style={styles.divider} />
             <h2 style={{ fontSize: "clamp(18px, 5vw, 26px)", fontWeight: "900", textTransform: "uppercase", letterSpacing: "2px", marginBottom: "12px", color: SMS_TEXT }}>Willkommen im Inner Circle</h2>
-            <p style={{ color: SMS_MUTED, fontSize: "15px", marginBottom: "40px" }}>Wähle einen Bereich – er öffnet sich auf der Website.</p>
+            <p style={{ color: SMS_MUTED, fontSize: "15px", marginBottom: "32px" }}>Wähle einen Bereich – er öffnet sich auf der Website.</p>
+            <NeuheitenBanner />
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "16px", maxWidth: "960px", margin: "0 auto", textAlign: "left" }}>
-              {areas.map(area => <AreaCard key={area.id} area={area} />)}
+              {areas.filter(a => !a.highlight).map(area => <AreaCard key={area.id} area={area} />)}
             </div>
           </div>
         </main>
