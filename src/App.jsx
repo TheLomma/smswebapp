@@ -28,7 +28,7 @@ const IMAGES = {
 };
 
 const areas = [
-  { id: "neuheiten",   label: "🆕 Alle Neuheiten",        description: "Die zuletzt hinzugefügten Artikel im Shop", url: "https://secret-magic-store.de/collections/alle-neuheiten", icon: "🌟", highlight: true },
+
   { id: "dachboden",    label: "Dachboden",            description: "Exklusive Inhalte & Überraschungen", url: "https://secret-magic-store.de/pages/dachboden-inner-circle",                                                         icon: "🏠" },
   { id: "wohnzimmer",   label: "Wohnzimmer",           description: "Der Inner Circle Blog",            url: "https://secret-magic-store.de/blogs/inner-circle",                                                          icon: "🛋️" },
   { id: "badezimmer",   label: "Badezimmer",           description: "Facebook Community",               url: "https://www.facebook.com/groups/531332315756823/",                                                           icon: "🚿" },
