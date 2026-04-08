@@ -243,6 +243,48 @@ function Header({ showLogout, onLogout }) {
   );
 }
 
+function UpdateBanner() {
+  const [show, setShow] = useState(false);
+  const [newSW, setNewSW] = useState(null);
+
+  useEffect(() => {
+    const handler = (e) => {
+      setNewSW(e.detail);
+      setShow(true);
+    };
+    window.addEventListener('swUpdateAvailable', handler);
+    return () => window.removeEventListener('swUpdateAvailable', handler);
+  }, []);
+
+  const handleUpdate = () => {
+    if (newSW) newSW.postMessage({ type: 'SKIP_WAITING' });
+    if ('caches' in window) {
+      caches.keys().then(keys => keys.forEach(k => caches.delete(k)));
+    }
+    setTimeout(() => window.location.reload(true), 300);
+  };
+
+  if (!show) return null;
+  return (
+    <div style={{
+      position: "fixed", bottom: "80px", left: "50%", transform: "translateX(-50%)",
+      zIndex: 1100, background: "#1a3d28", border: `2px solid ${SMS_GOLD}`,
+      borderRadius: "12px", padding: "16px 24px", boxShadow: `0 8px 32px rgba(0,0,0,0.35)`,
+      display: "flex", alignItems: "center", gap: "16px", flexWrap: "wrap",
+      maxWidth: "calc(100vw - 32px)", boxSizing: "border-box",
+    }} className="sms-fadein">
+      <div>
+        <div style={{ color: SMS_GOLD, fontWeight: "800", fontSize: "12px", letterSpacing: "2px", textTransform: "uppercase", marginBottom: "3px" }}>🆕 Neue Version verfügbar</div>
+        <div style={{ color: "rgba(255,255,255,0.7)", fontSize: "13px" }}>Jetzt aktualisieren für die neuesten Funktionen.</div>
+      </div>
+      <div style={{ display: "flex", gap: "8px", flexShrink: 0 }}>
+        <button onClick={() => setShow(false)} style={{ background: "transparent", border: "1px solid rgba(255,255,255,0.3)", color: "rgba(255,255,255,0.6)", borderRadius: "6px", padding: "8px 14px", fontSize: "12px", cursor: "pointer" }}>Später</button>
+        <button onClick={handleUpdate} style={{ background: SMS_GOLD, border: "none", color: "#fff", borderRadius: "6px", padding: "8px 18px", fontSize: "12px", fontWeight: "800", cursor: "pointer", letterSpacing: "0.5px" }}>Jetzt aktualisieren ↻</button>
+      </div>
+    </div>
+  );
+}
+
 function ScrollToTopBtn() {
   const [visible, setVisible] = useState(false);
   useEffect(() => {
@@ -669,7 +711,7 @@ export default function App() {
 
   const ctx = { dark, setDark, lang, setLang, t };
 
-  if (screen === "landing") return <AppContext.Provider value={ctx}><LandingPage onEnter={() => setScreen("login")} /></AppContext.Provider>;
-  if (screen === "login") return <AppContext.Provider value={ctx}><LoginRedirectPage onConfirm={handleConfirm} onBack={() => setScreen("landing")} /></AppContext.Provider>;
-  return <AppContext.Provider value={ctx}><Dashboard onLogout={handleLogout} /></AppContext.Provider>;
+  if (screen === "landing") return <AppContext.Provider value={ctx}><UpdateBanner /><LandingPage onEnter={() => setScreen("login")} /></AppContext.Provider>;
+  if (screen === "login") return <AppContext.Provider value={ctx}><UpdateBanner /><LoginRedirectPage onConfirm={handleConfirm} onBack={() => setScreen("landing")} /></AppContext.Provider>;
+  return <AppContext.Provider value={ctx}><UpdateBanner /><Dashboard onLogout={handleLogout} /></AppContext.Provider>;
 }
