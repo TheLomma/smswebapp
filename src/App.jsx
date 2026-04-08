@@ -224,7 +224,7 @@ function Header({ showLogout, onLogout }) {
           <button onClick={() => setDark(d => !d)} title={dark ? "Light Mode" : "Dark Mode"} style={{ background: "rgba(255,255,255,0.12)", border: "1px solid rgba(255,255,255,0.3)", borderRadius: "4px", color: "#fff", fontSize: "14px", padding: "5px 10px", cursor: "pointer" }}>
             {dark ? "☀️" : "🌙"}
           </button>
-          <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "11px", letterSpacing: "0.5px" }}>v 2.5</span>
+          <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "11px", letterSpacing: "0.5px" }}>v 2.6</span>
           {showLogout && (
             <a href={SHOPIFY_ACCOUNT_URL} target="_blank" rel="noopener noreferrer"
               style={{ color: "rgba(255,255,255,0.75)", fontSize: "13px", textDecoration: "none", whiteSpace: "nowrap" }}>
@@ -553,10 +553,8 @@ function AreaCard({ area }) {
         ) : (
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", fontSize: "40px" }}>{area.icon}</div>
         )}
-        {area.comingSoon ? (
+        {area.comingSoon && (
           <div style={{ position: "absolute", top: 8, right: 8, background: SMS_TOPBAR, color: "#fff", fontSize: "10px", fontWeight: "700", letterSpacing: "1px", padding: "3px 8px", borderRadius: "3px" }}>{t.soon}</div>
-        ) : (
-          <div style={{ position: "absolute", top: 8, right: 8, background: area.highlight ? SMS_GOLD : "rgba(0,0,0,0.45)", color: "#fff", fontSize: "10px", fontWeight: "700", letterSpacing: "1px", padding: "3px 8px", borderRadius: "3px" }}>{area.highlight ? "🆕 NEU IM SHOP" : t.open}</div>
         )}
       </div>
       <div style={{ padding: "14px 16px" }}>
