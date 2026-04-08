@@ -122,7 +122,7 @@ function Header({ showLogout, onLogout }) {
           <div style={{ ...styles.label, color: "rgba(255,255,255,0.85)" }}>Inner Circle</div>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-          <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "11px", letterSpacing: "0.5px" }}>v 1.8</span>
+          <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "11px", letterSpacing: "0.5px" }}>v 1.9</span>
           {showLogout && (
             <a href={SHOPIFY_ACCOUNT_URL} target="_blank" rel="noopener noreferrer"
               style={{ color: "rgba(255,255,255,0.75)", fontSize: "13px", textDecoration: "none", whiteSpace: "nowrap" }}>
@@ -160,6 +160,45 @@ const NEUHEITEN = [
 ];
 
 function NeuheitenSlider() {
+  return (
+    <a
+      href="https://secret-magic-store.de/collections/alle-neuheiten"
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{
+        display: "block",
+        textDecoration: "none",
+        maxWidth: "960px",
+        margin: "0 auto 28px",
+        borderRadius: "14px",
+        overflow: "hidden",
+        background: `linear-gradient(135deg, #1a3d28 0%, ${SMS_GREEN} 50%, #2d5a3d 100%)`,
+        border: `2px solid ${SMS_GOLD}`,
+        boxShadow: `0 8px 40px ${SMS_GOLD}44`,
+        position: "relative",
+        transition: "transform 0.2s, box-shadow 0.2s",
+      }}
+      onMouseOver={e => { e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = `0 16px 48px ${SMS_GOLD}66`; }}
+      onMouseOut={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = `0 8px 40px ${SMS_GOLD}44`; }}
+    >
+      <div style={{ position: "absolute", inset: 0, opacity: 0.07, backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)", backgroundSize: "20px 20px", pointerEvents: "none" }} />
+      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "3px", background: `linear-gradient(90deg, transparent, ${SMS_GOLD}, transparent)` }} />
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "28px 36px", flexWrap: "wrap", gap: "20px", position: "relative" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+          <div style={{ width: "64px", height: "64px", borderRadius: "50%", background: `radial-gradient(circle at 35% 35%, ${SMS_GOLD}cc, #8a5c10)`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "30px", flexShrink: 0, boxShadow: `0 4px 16px ${SMS_GOLD}66` }}>✨</div>
+          <div>
+            <div style={{ color: SMS_GOLD, fontWeight: "800", fontSize: "10px", letterSpacing: "4px", textTransform: "uppercase", marginBottom: "6px" }}>Jetzt neu im Shop</div>
+            <div style={{ color: "#fff", fontWeight: "900", fontSize: "clamp(17px, 3vw, 24px)", letterSpacing: "1px", textTransform: "uppercase", lineHeight: 1.2 }}>Alle Neuheiten entdecken</div>
+            <div style={{ color: "rgba(255,255,255,0.55)", fontSize: "13px", marginTop: "5px" }}>Die neusten Zaubertricks und Bücher</div>
+          </div>
+        </div>
+        <div style={{ background: SMS_GOLD, color: "#fff", fontWeight: "900", fontSize: "13px", letterSpacing: "1.5px", textTransform: "uppercase", padding: "13px 26px", borderRadius: "8px", whiteSpace: "nowrap", boxShadow: "0 4px 16px rgba(0,0,0,0.25)", display: "flex", alignItems: "center", gap: "8px" }}>Entdecken <span style={{ fontSize: "16px" }}>→</span></div>
+      </div>
+      <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "2px", background: `linear-gradient(90deg, transparent, ${SMS_GOLD}88, transparent)` }} />
+    </a>
+  );
+}
+function NeuheitenSliderDELETED() {
   return (
     <div style={{ maxWidth: "960px", margin: "0 auto 28px", textAlign: "center" }}>
       <a
