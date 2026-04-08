@@ -24,7 +24,7 @@ const IMAGES = {
   gaestezimmer: "/images/gaestezimmer.png",
   balkon:       "/images/balkon.png",
   keller:       "/images/keller.png",
-  gewinnspiel:  "/images/gewinnspiel.png",
+
 };
 
 const areas = [
@@ -39,7 +39,7 @@ const areas = [
   { id: "gaestezimmer", label: "Gästezimmer",         description: "Für unsere Gäste",                  url: "https://secret-magic-store.de/blogs/gastezimmer",                                                           icon: "🛎️" },
   { id: "balkon",       label: "Balkon",               description: "Exklusive Produkte",               url: "https://secret-magic-store.de/collections/dachboden-inner-circle-1",                                       icon: "🌿" },
   { id: "keller",       label: "Keller",               description: "Demnächst verfügbar",              url: null, icon: "🔑", comingSoon: true },
-  { id: "gewinnspiel",  label: "Gewinnspiel Ostern 2026", description: "Jetzt mitmachen!",             url: "https://secret-magic-store.de/pages/gewinnspiel-ostern-2026",                                              icon: "🐣" },
+
 ];
 
 const styles = {
