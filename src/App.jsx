@@ -152,11 +152,11 @@ function Footer() {
 
 // Neuheiten Slider – Produkte hier manuell pflegen
 const NEUHEITEN = [
-  { id: 1, title: "A.P.E.", author: "Craig Petty", img: "https://secret-magic-store.de/cdn/shop/files/APE_Craig_Petty.jpg", url: "https://secret-magic-store.de/collections/alle-neuheiten" },
-  { id: 2, title: "Neuheit 2", author: "Künstler", img: "", url: "https://secret-magic-store.de/collections/alle-neuheiten" },
-  { id: 3, title: "Neuheit 3", author: "Künstler", img: "", url: "https://secret-magic-store.de/collections/alle-neuheiten" },
-  { id: 4, title: "Neuheit 4", author: "Künstler", img: "", url: "https://secret-magic-store.de/collections/alle-neuheiten" },
-  { id: 5, title: "Neuheit 5", author: "Künstler", img: "", url: "https://secret-magic-store.de/collections/alle-neuheiten" },
+  { id: 1, title: "A.P.E.", author: "Craig Petty", img: "", url: "https://secret-magic-store.de/collections/alle-neuheiten", emoji: "🦍" },
+  { id: 2, title: "Neuheit 2", author: "Künstler", img: "", url: "https://secret-magic-store.de/collections/alle-neuheiten", emoji: "🎩" },
+  { id: 3, title: "Neuheit 3", author: "Künstler", img: "", url: "https://secret-magic-store.de/collections/alle-neuheiten", emoji: "✨" },
+  { id: 4, title: "Neuheit 4", author: "Künstler", img: "", url: "https://secret-magic-store.de/collections/alle-neuheiten", emoji: "🃏" },
+  { id: 5, title: "Neuheit 5", author: "Künstler", img: "", url: "https://secret-magic-store.de/collections/alle-neuheiten", emoji: "🔮" },
 ];
 
 function NeuheitenSlider() {
@@ -179,7 +179,11 @@ function NeuheitenSlider() {
           {current.img ? (
             <img src={current.img} alt={current.title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", transition: "opacity 0.4s" }} />
           ) : (
-            <div style={{ width: "100%", height: "100%", background: `linear-gradient(135deg, ${SMS_GREEN}, #1a3d28)`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "48px" }}>🌟</div>
+            <div style={{ width: "100%", height: "100%", background: `linear-gradient(135deg, ${SMS_GREEN} 0%, #1a3d28 60%, #0d2a1a 100%)`, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "12px" }}>
+              <div style={{ fontSize: "64px", lineHeight: 1 }}>{current.emoji || "🌟"}</div>
+              <div style={{ color: SMS_GOLD, fontWeight: "900", fontSize: "clamp(18px, 3vw, 28px)", letterSpacing: "2px", textTransform: "uppercase", textAlign: "center", padding: "0 20px" }}>{current.title}</div>
+              <div style={{ color: "rgba(255,255,255,0.6)", fontSize: "14px" }}>{current.author}</div>
+            </div>
           )}
           {/* Dunkler Gradient über dem Bild */}
           <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.1) 60%, transparent 100%)" }} />
@@ -208,7 +212,7 @@ function NeuheitenSlider() {
             {p.img ? (
               <img src={p.img} alt={p.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             ) : (
-              <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "20px" }}>🌟</div>
+              <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "22px", background: `linear-gradient(135deg, ${SMS_GREEN}, #1a3d28)` }}>{p.emoji || "🌟"}</div>
             )}
           </div>
         ))}
