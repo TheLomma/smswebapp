@@ -160,6 +160,34 @@ const NEUHEITEN = [
 ];
 
 function NeuheitenSlider() {
+  return (
+    <div style={{ maxWidth: "960px", margin: "0 auto 28px", textAlign: "center" }}>
+      <a
+        href="https://secret-magic-store.de/collections/alle-neuheiten"
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{
+          display: "inline-block",
+          background: SMS_GOLD,
+          color: "#fff",
+          fontWeight: "800",
+          fontSize: "15px",
+          letterSpacing: "1px",
+          textTransform: "uppercase",
+          padding: "14px 32px",
+          borderRadius: "6px",
+          textDecoration: "none",
+          boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
+        }}
+        onMouseOver={e => e.currentTarget.style.background = "#b8922e"}
+        onMouseOut={e => e.currentTarget.style.background = SMS_GOLD}
+      >
+        🆕 Alle Neuheiten entdecken →
+      </a>
+    </div>
+  );
+}
+function NeuheitenSliderOLD() {
   const [active, setActive] = useState(0);
 
   useEffect(() => {
