@@ -122,7 +122,7 @@ function Header({ showLogout, onLogout }) {
           <div style={{ ...styles.label, color: "rgba(255,255,255,0.85)" }}>Inner Circle</div>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-          <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "11px", letterSpacing: "0.5px" }}>v 1.7</span>
+          <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "11px", letterSpacing: "0.5px" }}>v 1.8</span>
           {showLogout && (
             <a href={SHOPIFY_ACCOUNT_URL} target="_blank" rel="noopener noreferrer"
               style={{ color: "rgba(255,255,255,0.75)", fontSize: "13px", textDecoration: "none", whiteSpace: "nowrap" }}>
@@ -181,7 +181,7 @@ function NeuheitenBanner() {
           <div>
             <div style={{ color: SMS_GOLD, fontWeight: "800", fontSize: "11px", letterSpacing: "3px", textTransform: "uppercase", marginBottom: "6px" }}>Jetzt neu im Shop</div>
             <div style={{ color: "#fff", fontWeight: "900", fontSize: "clamp(18px, 3vw, 26px)", letterSpacing: "1px", textTransform: "uppercase", marginBottom: "6px" }}>Alle Neuheiten entdecken</div>
-            <div style={{ color: "rgba(255,255,255,0.7)", fontSize: "14px" }}>Die zuletzt hinzugefügten Artikel im Secret Magic Store</div>
+            <div style={{ color: "rgba(255,255,255,0)" }}> hinzugefügten Artikel im Secret Magic Store</div>
           </div>
         </div>
         <div style={{
@@ -265,7 +265,10 @@ function LandingPage({ onEnter }) {
           <p style={{ color: "#555", fontSize: "12px", margin: 0 }}>Du wirst zum offiziellen Secret Magic Store weitergeleitet.</p>
         </div>
       </div>
-      <div style={{ maxWidth: "1100px", margin: "32px auto", padding: "0 16px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "24px" }}>
+      <div style={{ maxWidth: "960px", margin: "24px auto 0", padding: "0 16px" }}>
+        <NeuheitenBanner />
+      </div>
+      <div style={{ maxWidth: "1100px", margin: "0 auto", padding: "0 16px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "24px" }}>
         {areas.map(area => <AreaCard key={area.id} area={area} />)}
       </div>
       <Footer />
