@@ -224,7 +224,7 @@ function Header({ showLogout, onLogout }) {
           <button onClick={() => setDark(d => !d)} title={dark ? "Light Mode" : "Dark Mode"} style={{ background: "rgba(255,255,255,0.12)", border: "1px solid rgba(255,255,255,0.3)", borderRadius: "4px", color: "#fff", fontSize: "14px", padding: "5px 10px", cursor: "pointer" }}>
             {dark ? "☀️" : "🌙"}
           </button>
-          <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "11px", letterSpacing: "0.5px" }}>v 2.3</span>
+          <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "11px", letterSpacing: "0.5px" }}>v 2.4</span>
           {showLogout && (
             <a href={SHOPIFY_ACCOUNT_URL} target="_blank" rel="noopener noreferrer"
               style={{ color: "rgba(255,255,255,0.75)", fontSize: "13px", textDecoration: "none", whiteSpace: "nowrap" }}>
@@ -267,7 +267,7 @@ function UpdateBanner() {
   if (!show) return null;
   return (
     <div style={{
-      position: "fixed", bottom: "80px", left: "50%", transform: "translateX(-50%)",
+      position: "fixed", top: "24px", left: "50%", transform: "translateX(-50%)",
       zIndex: 1100, background: "#1a3d28", border: `2px solid ${SMS_GOLD}`,
       borderRadius: "12px", padding: "16px 24px", boxShadow: `0 8px 32px rgba(0,0,0,0.35)`,
       display: "flex", alignItems: "center", gap: "16px", flexWrap: "wrap",
@@ -569,6 +569,7 @@ function AreaCard({ area }) {
 
 function LandingPage({ onEnter }) {
   const { dark, t } = useApp();
+  // Nicht eingeloggte Nutzer sehen KEINE Bereiche
   return (
     <div style={{ ...styles.page, background: dark ? DARK.bg : SMS_BG }} className="sms-fadeinup">
       <Header showLogout={false} />
@@ -590,9 +591,6 @@ function LandingPage({ onEnter }) {
         <NeuheitenSlider />
       </div>
       <ScrollToTopBtn />
-      <div style={{ maxWidth: "1100px", margin: "0 auto", padding: "0 16px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "24px" }}>
-        {areas.map(area => <AreaCard key={area.id} area={area} />)}
-      </div>
       <Footer />
     </div>
   );
@@ -696,17 +694,10 @@ export default function App() {
   const handleLogout = () => {
     localStorage.removeItem("sms_inner_circle_auth");
     localStorage.removeItem("sms_inner_circle_auth_ts");
-    // Service Worker Cache leeren und neu laden
-    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-      navigator.serviceWorker.controller.postMessage({ type: 'CLEAR_CACHE' });
-    }
-    // Caches direkt leeren
     if ('caches' in window) {
       caches.keys().then(keys => keys.forEach(key => caches.delete(key)));
     }
     setScreen("landing");
-    // Hard reload nach kurzer Verzögerung
-    setTimeout(() => window.location.reload(true), 150);
   };
 
   const ctx = { dark, setDark, lang, setLang, t };
